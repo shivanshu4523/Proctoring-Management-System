@@ -16,8 +16,8 @@ app.use(cors()); // Enable CORS to allow requests from your frontend
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/MyProjects', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
