@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proctoring Management System</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <style>
+        .navbar {
+            margin-left: -1px; 
+            margin-right: -1px; 
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        #heading{
+            /* height: 10vh; */
+            font-size: 85px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bolder;
+
+        }
+        .nav-item{
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: 300;
+            font-size: larger;
+        }
+        .nav-item:hover{
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        .hero-text {
+            font-size: 36px;
+            font-weight: 400;
+            color: #333;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (min-width: 768px) {
+            .hero {
+                flex-direction: row;
+                text-align: left;
+            }
+            .hero-text {
+                font-size: 48px;
+                width: 60%;
+            }
+            .hero-image {
+                width: 40%;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        } 
+        #link{
+            margin: 4px;
+        }
+        #link:hover{
+            color:  #ffc107;
+            font-size: 20px;
+            text-decoration: underline;
+             text-decoration-color:  #ffc107;
+        }
+        #link1{
+            margin: 4px;
+        }
+        #link1:hover{
+            color:  #ffc107;
+             font-size: 20px;
+             text-decoration: underline;
+             text-decoration-color:  #ffc107;
+        }
+
+        .typewriter-text {
+            overflow: hidden; 
+            font-size: 40px;
+            font-family: cursive;
+            color: blue;
+            white-space: nowrap;
+            border-right: 2px solid #333; 
+            animation: typewriter 4s steps(40) infinite; 
+            display: inline-block;
+        }
+        
+        @keyframes typewriter {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        #logo{
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="hero">
+            <div class="hero-text">
+                <h1 id="heading">Proctoring Management System</h1>
+                <p class="typewriter-text">A comprehensive system for managing student behavior and performance.</p>
+            </div>
+            <img src="./img/_67577c21-16bc-44bc-afd4-bf38565e9a22.jpeg" alt="Proctoring Management System" class="hero-image">
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a><img src="./img/download.png" alt="" id="logo" href="#"></a>
+                <a class="navbar-brand" class="nav-item" href="#">Proctor</a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active homeLink" aria-current="page" href="#" id="homeLink">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active studentsLink" aria-current="page" href="#" id="homeLink">Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active recordsLink" aria-current="page" href="#" id="homeLink">Misbehavior Records</a>
+                        </li>
+                    </ul>
+                    
+                    <form class="d-flex">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="link1" href="signup.html">Sign Up </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="link" href="signin.html">Sign In</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> -->
+     
+</body>
+</html>
