@@ -30,7 +30,7 @@
                         <a class="nav-link active" href="record.html">View Records</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html" id="logout">Logout</a>
+                        <a class="nav-link" href="" id="logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -134,6 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchAllRecords();
 });
 
+
+        document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action (if any)
+            if (confirm('You are logged out. Click OK to proceed.')) {
+                // Redirect or perform logout action here
+                window.location.href = 'index.html'; // Example redirect
+            }
+        });
 
 </script>
 

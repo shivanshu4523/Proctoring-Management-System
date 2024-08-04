@@ -70,7 +70,7 @@
                         <a class="nav-link" href="#" id="previous-records-link">Previous Record</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html" id="logout">Logout</a>
+                        <a class="nav-link" href="" id="logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -227,6 +227,14 @@ document.getElementById('add-students-link').addEventListener('click', () => {
     document.getElementById('add-students-section').classList.remove('hidden');
     document.getElementById('previous-records-section').classList.add('hidden');
 });
+
+document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action (if any)
+            if (confirm('You are logged out. Click OK to proceed.')) {
+                // Redirect or perform logout action here
+                window.location.href = 'index.html'; // Example redirect
+            }
+        });
 
     </script>
 </body>

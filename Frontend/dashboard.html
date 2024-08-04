@@ -52,11 +52,18 @@
                         <a class="nav-link" href="record.html">View Record</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#punishments-section">Punishments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#settings-section">Settings</a>
-                    </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Settings
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="">Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="">Account Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="">Change Password</a></li>
+                            </ul>
+                        </li>
+                        
                     <li class="nav-item">
                         <a class="nav-link" href="index.html" id="logout">Logout  </a>
                     </li>
@@ -120,6 +127,18 @@
         </div>
 
     </div>
+    
+    <script>
+                document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action (if any)
+            if (confirm('You are logged out. Click OK to proceed.')) {
+                // Redirect or perform logout action here
+                window.location.href = 'index.html'; // Example redirect
+            }
+        });
+    </script>
+
+
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
