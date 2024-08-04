@@ -41,6 +41,35 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 
 
+// New Sign-in Functionality
+document.getElementById('signinForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('http://localhost:3000/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200) {
+            alert('Sign-in successful!');
+            window.location.href = 'dashboard.html';
+        } else {
+            alert(result.error);
+        }
+    } catch (error) {
+        console.error('Error signing in:', error);
+        alert('Error signing in. Please try again later.');
+    }
+});
 
 
 
