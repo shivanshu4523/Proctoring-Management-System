@@ -54,7 +54,7 @@
                             <input type="date" class="form-control" id="searchDate" placeholder="Search by Date">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="searchRollNo" placeholder="Search by Roll No">
+                            <input type="text" class="form-control" id="searchRollNumber" placeholder="Search by Roll No">
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" id="searchDepartment" placeholder="Search by Department">
@@ -103,36 +103,48 @@
 </body>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Function to fetch and display student records
-        const fetchAllRecords = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/api/all-students'); // Updated endpoint
-                const records = await response.json();
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to fetch and display student records
+    const fetchAllRecords = async (filters = {}) => {
+        try {
+            const queryString = new URLSearchParams(filters).toString();
+            const response = await fetch(`http://localhost:3000/api/students/search?${queryString}`);
+            const records = await response.json();
 
-                const recordsTableBody = document.getElementById('recordsTableBody');
-                recordsTableBody.innerHTML = ''; // Clear existing records
+            const recordsTableBody = document.getElementById('recordsTableBody');
+            recordsTableBody.innerHTML = ''; // Clear existing records
 
-                records.forEach(record => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${record.date || '-'}</td>
-                        <td>${record.rollNo || '-'}</td>
-                        <td>${record.name || '-'}</td>
-                        <td>${record.branch || '-'}</td>
-                        <td>${record.misbehavior || '-'}</td>
-                        <td>${record.place || '-'}</td>
-                        <td>${record.punishment || '-'}</td>
-                    `;
-                    recordsTableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error fetching records:', error);
-            }
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.date|| '-'}</td>
+                    <td>${record.rollNo|| '-'}</td>
+                    <td>${record.name|| '-'}</td>
+                    <td>${record.branch|| '-'}</td>
+                    <td>${record.misbehavior|| '-'}</td>
+                    <td>${record.place|| '-'}</td>
+                    <td>${record.punishment || '-'}</td>
+                `;
+                recordsTableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error fetching records:', error);
+        }
+    };
+
+    // Fetch all records on page load
+    fetchAllRecords();
+
+    // Handle search form submission
+    document.getElementById('searchForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const filters = {
+            name: document.getElementById('searchName').value,
+            date: document.getElementById('searchDate').value,
+            rollNo: document.getElementById('searchRollNumber').value,
+            department: document.getElementById('searchDepartment').value
         };
-
-        // Fetch and display all records on page load
-        fetchAllRecords();
+        fetchAllRecords(filters);
     });
 
     document.getElementById('logout').addEventListener('click', function(event) {
@@ -142,7 +154,8 @@
             window.location.href = 'index.html'; // Example redirect
         }
     });
-</script>
+});
 
+</script>
 
 </html>
