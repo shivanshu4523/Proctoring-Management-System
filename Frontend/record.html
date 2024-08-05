@@ -103,48 +103,46 @@
 </body>
 
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Function to fetch and display student records
+        const fetchAllRecords = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/all-students'); // Updated endpoint
+                const records = await response.json();
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Function to fetch and display student records
-    const fetchAllRecords = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/MyProjects');
-            const records = await response.json();
+                const recordsTableBody = document.getElementById('recordsTableBody');
+                recordsTableBody.innerHTML = ''; // Clear existing records
 
-            const recordsTableBody = document.getElementById('recordsTableBody');
-            recordsTableBody.innerHTML = ''; // Clear existing records
-
-            records.forEach(record => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${record.date}</td>
-                    <td>${record.rollNumber}</td>
-                    <td>${record.name}</td>
-                    <td>${record.branch}</td>
-                    <td>${record.misbehavior}</td>
-                    <td>${record.place}</td>
-                    <td>${record.punishment}</td>
-                `;
-                recordsTableBody.appendChild(row);
-            });
-        } catch (error) {
-            console.error('Error fetching records:', error);
-        }
-    };
-
-    // Fetch and display all records on page load
-    fetchAllRecords();
-});
-
-
-        document.getElementById('logout').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default action (if any)
-            if (confirm('You are logged out. Click OK to proceed.')) {
-                // Redirect or perform logout action here
-                window.location.href = 'index.html'; // Example redirect
+                records.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.date || 'N/A'}</td>
+                        <td>${record.rollNo || 'N/A'}</td>
+                        <td>${record.name || 'N/A'}</td>
+                        <td>${record.branch || 'N/A'}</td>
+                        <td>${record.misbehavior || 'N/A'}</td>
+                        <td>${record.place || 'N/A'}</td>
+                        <td>${record.punishment || 'N/A'}</td>
+                    `;
+                    recordsTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching records:', error);
             }
-        });
+        };
 
+        // Fetch and display all records on page load
+        fetchAllRecords();
+    });
+
+    document.getElementById('logout').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default action (if any)
+        if (confirm('You are logged out. Click OK to proceed.')) {
+            // Redirect or perform logout action here
+            window.location.href = 'index.html'; // Example redirect
+        }
+    });
 </script>
+
 
 </html>

@@ -20,7 +20,6 @@ const signUp = async (req, res) => {
     }
 };
 
-// Function to add a student
 const addStudent = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -37,7 +36,6 @@ const addStudent = async (req, res) => {
     }
 };
 
-// Function to get all students
 const getStudents = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -51,7 +49,6 @@ const getStudents = async (req, res) => {
     }
 };
 
-// New function to fetch all student records                        
 const getAllStudentRecords = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -66,21 +63,3 @@ const getAllStudentRecords = async (req, res) => {
 };
 
 module.exports = { home, signUp, addStudent, getStudents, getAllStudentRecords };
-
-
-
-        ///////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
