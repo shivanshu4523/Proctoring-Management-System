@@ -116,13 +116,13 @@
                 records.forEach(record => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${record.date || 'N/A'}</td>
-                        <td>${record.rollNo || 'N/A'}</td>
-                        <td>${record.name || 'N/A'}</td>
-                        <td>${record.branch || 'N/A'}</td>
-                        <td>${record.misbehavior || 'N/A'}</td>
-                        <td>${record.place || 'N/A'}</td>
-                        <td>${record.punishment || 'N/A'}</td>
+                        <td>${record.date || '-'}</td>
+                        <td>${record.rollNo || '-'}</td>
+                        <td>${record.name || '-'}</td>
+                        <td>${record.branch || '-'}</td>
+                        <td>${record.misbehavior || '-'}</td>
+                        <td>${record.place || '-'}</td>
+                        <td>${record.punishment || '-'}</td>
                     `;
                     recordsTableBody.appendChild(row);
                 });
