@@ -40,11 +40,6 @@ document.addEventListener("DOMContentLoaded", handleNavigation);
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 

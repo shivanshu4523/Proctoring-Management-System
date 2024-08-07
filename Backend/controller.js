@@ -163,7 +163,7 @@ const signUp = async (req, res) => {
         data.password = await bcrypt.hash(data.password, 5);
         await coll.insertOne(data);
 
-        const token = jwt.sign({ email: data.email }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ email: data.email }, JWT_SECRET, { expiresIn: '1000h' });
 
 
         client.close();

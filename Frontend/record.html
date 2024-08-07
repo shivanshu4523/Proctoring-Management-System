@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
-
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -100,62 +97,70 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</body>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Function to fetch and display student records
-    const fetchAllRecords = async (filters = {}) => {
-        try {
-            const queryString = new URLSearchParams(filters).toString();
-            const response = await fetch(`http://localhost:3000/api/students/search?${queryString}`);
-            const records = await response.json();
-
-            const recordsTableBody = document.getElementById('recordsTableBody');
-            recordsTableBody.innerHTML = ''; // Clear existing records
-
-            records.forEach(record => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${record.date|| '-'}</td>
-                    <td>${record.rollNo|| '-'}</td>
-                    <td>${record.name|| '-'}</td>
-                    <td>${record.branch|| '-'}</td>
-                    <td>${record.misbehavior|| '-'}</td>
-                    <td>${record.place|| '-'}</td>
-                    <td>${record.punishment || '-'}</td>
-                `;
-                recordsTableBody.appendChild(row);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to fetch and display student records
+            const fetchAllRecords = async (filters = {}) => {
+                try {
+                    // Construct the query string from filters
+                    const queryString = new URLSearchParams(filters).toString();
+                    const token = localStorage.getItem('authToken'); // Get the token from localStorage
+                    const response = await fetch(`http://localhost:3000/api/students/search?${queryString}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const records = await response.json();
+    
+                    if (!response.ok) {
+                        throw new Error(records.error);
+                    }
+    
+                    const recordsTableBody = document.getElementById('recordsTableBody');
+                    recordsTableBody.innerHTML = ''; // Clear existing records
+    
+                    records.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${record.date || '-'}</td>
+                            <td>${record.rollNo || '-'}</td>
+                            <td>${record.name || '-'}</td>
+                            <td>${record.branch || '-'}</td>
+                            <td>${record.misbehavior || '-'}</td>
+                            <td>${record.place || '-'}</td>
+                            <td>${record.punishment || '-'}</td>
+                        `;
+                        recordsTableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error fetching records:', error);
+                }
+            };
+    
+            // Fetch all records on page load
+            fetchAllRecords();
+    
+            // Handle search form submission
+            document.getElementById('searchForm').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const filters = {
+                    name: document.getElementById('searchName').value,
+                    date: document.getElementById('searchDate').value,
+                    rollNo: document.getElementById('searchRollNumber').value,
+                    department: document.getElementById('searchDepartment').value
+                };
+                fetchAllRecords(filters);
             });
-        } catch (error) {
-            console.error('Error fetching records:', error);
-        }
-    };
-
-    // Fetch all records on page load
-    fetchAllRecords();
-
-    // Handle search form submission
-    document.getElementById('searchForm').addEventListener('submit', (event) => {
-        event.preventDefault();
-        const filters = {
-            name: document.getElementById('searchName').value,
-            date: document.getElementById('searchDate').value,
-            rollNo: document.getElementById('searchRollNumber').value,
-            department: document.getElementById('searchDepartment').value
-        };
-        fetchAllRecords(filters);
-    });
-
-    document.getElementById('logout').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default action (if any)
-        if (confirm('You are logged out. Click OK to proceed.')) {
-            // Redirect or perform logout action here
-            window.location.href = 'index.html'; // Example redirect
-        }
-    });
-});
-
-</script>
-
+    
+            document.getElementById('logout').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action (if any)
+                if (confirm('You are logged out. Click OK to proceed.')) {
+                    // Redirect or perform logout action here
+                    window.location.href = 'index.html'; // Example redirect
+                }
+            });
+        });
+    </script>
+</body>
 </html>

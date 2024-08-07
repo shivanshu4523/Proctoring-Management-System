@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt'); // Import bcrypt for hashing passwords
 const route = require('./route');
+const jwt = require('jsonwebtoken');
+
+// const JWT_SECRET = process.env.JWT_SECRET;
+
 
 // Initialize Express app
 const app = express();
@@ -56,6 +60,33 @@ app.post('/signup', async (req, res) => {
         res.status(400).json({ error: 'Error creating user' }); // Send error response
     }
 });
+
+
+/////////////////////////////////////////////
+
+// // Middleware to verify token
+// const verifyToken = (req, res, next) => {
+//     const token = req.headers['authorization']?.split(' ')[1];
+
+//     if (!token) {
+//         return res.status(403).json({ error: 'No token provided' });
+//     }
+
+//     jwt.verify(token, secret, (err, decoded) => {
+//         if (err) {
+//             return res.status(403).json({ error: 'Failed to authenticate token' });
+//         }
+//         req.userId = decoded.id;
+//         next();
+//     });
+// };
+
+
+
+///////////////////////
+
+
+
 
 // Use the route module
 app.use('/api', route);
