@@ -113,12 +113,10 @@ require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Home route
 const home = async (req, res) => {
     res.send("Welcome");
 };
 
-// Signup controller
 exports.signup = async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -127,24 +125,20 @@ exports.signup = async (req, res) => {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
         const coll = client.db('MyProjects').collection('users');
 
-        // Check if user already exists
         const existingUser = await coll.findOne({ email });
         if (existingUser) {
             client.close();
             return res.status(400).json({ error: 'User already registered' });
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new user
         const newUser = new User({
             username,
             email,
             password: hashedPassword,
         });
 
-        // Save the user to the database
         await newUser.save();
 
         res.status(201).json({ message: 'User registered successfully!' });
@@ -154,7 +148,6 @@ exports.signup = async (req, res) => {
     }
 };
 
-// SignUp function
 const signUp = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -163,7 +156,7 @@ const signUp = async (req, res) => {
         data.password = await bcrypt.hash(data.password, 5);
         await coll.insertOne(data);
 
-        const token = jwt.sign({ email: data.email }, JWT_SECRET, { expiresIn: '1000h' });
+        // const token = jwt.sign({ email: data.email }, JWT_SECRET, { expiresIn: '1h' });
 
 
         client.close();
@@ -173,7 +166,6 @@ const signUp = async (req, res) => {
     }
 };
 
-// SignIn function
 const signIn = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -199,32 +191,32 @@ const signIn = async (req, res) => {
     }
 };
 
-// SignIn function (alternate)
-exports.signin = async (req, res) => {
-    const { email, password } = req.body;
+// // SignIn function (alternate)
+// exports.signin = async (req, res) => {
+//     const { email, password } = req.body;
 
-    try {
-        // Find the user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid email or password' });
-        }
+//     try {
+//         // Find the user by email
+//         const user = await User.findOne({ email });
+//         if (!user) {
+//             return res.status(400).json({ error: 'Invalid email or password' });
+//         }
 
-        // Check if the password is correct
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email or password' });
-        }
+//         // Check if the password is correct
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) {
+//             return res.status(400).json({ error: 'Invalid email or password' });
+//         }
 
-        // Generate a JWT token
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+//         // Generate a JWT token
+//         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ token });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-    }
-};
+//         res.status(200).json({ token });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Server error' });
+//     }
+// };
 
 // Token verification middleware
 const verifyToken = (req, res, next) => {
@@ -234,7 +226,6 @@ const verifyToken = (req, res, next) => {
         return res.status(403).json({ error: 'No token provided' });
     }
 
-    // Remove Bearer prefix if present
     const tokenWithoutBearer = token.startsWith('Bearer ') ? token.slice(7, token.length) : token;
 
     jwt.verify(tokenWithoutBearer, JWT_SECRET, (err, decoded) => {
@@ -246,13 +237,12 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-// Add student function
 const addStudent = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
         const coll = client.db('MyProjects').collection('records');
         const data = req.body;
-        const date = new Date().toLocaleDateString(); // Get the current date
+        const date = new Date().toLocaleDateString(); 
         const newStudent = { ...data, date };
 
         await coll.insertOne(newStudent);
@@ -263,7 +253,6 @@ const addStudent = async (req, res) => {
     }
 };
 
-// Get students function
 const getStudents = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -277,7 +266,6 @@ const getStudents = async (req, res) => {
     }
 };
 
-// Get all student records function
 const getAllStudentRecords = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
@@ -291,20 +279,17 @@ const getAllStudentRecords = async (req, res) => {
     }
 };
 
-// Search students function
 const searchStudents = async (req, res) => {
     try {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
         const coll = client.db('MyProjects').collection('records');
         const { name, date, rollNo, department } = req.query;
 
-        // Build the query object based on provided filters
         let query = {};
-        if (name) query.name = new RegExp(name, 'i'); // Case-insensitive search for name
+        if (name) query.name = new RegExp(name, 'i'); 
         if (date) query.date = date;
         if (rollNo) query.rollNo = rollNo;
-        if (department) query.branch = new RegExp(department, 'i'); // Case-insensitive search for department
-
+        if (department) query.branch = new RegExp(department, 'i'); 
         const students = await coll.find(query).toArray();
 
         client.close();

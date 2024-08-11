@@ -9,10 +9,8 @@ function handleNavigation() {
         link.addEventListener("click", function(event) {
             event.preventDefault();
 
-            // Show confirm dialog with OK and Cancel buttons
             const userConfirmed = showConfirm("You Need to LogIn First!!");
 
-            // If user clicks OK, navigate to signIn.html
             if (userConfirmed) {
                 window.location.href = "signin.html";
             }
@@ -37,9 +35,6 @@ document.addEventListener("DOMContentLoaded", handleNavigation);
 // });
 
 
-
-
-
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -54,7 +49,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         });
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem('token', data.token); // Store the token
+            localStorage.setItem('token', data.token); 
             window.location.href = 'dashboard.html';
         } else {
             alert(data.error);
@@ -85,7 +80,7 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         });
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem('token', data.token); // Store the token
+            localStorage.setItem('token', data.token); 
             window.location.href = 'signin.html';
         } else {
             alert(data.error);

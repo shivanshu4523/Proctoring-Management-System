@@ -41,42 +41,37 @@
 </form>
 
     <script>
-        // Function to handle form submission
         async function handleSignin(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); 
 
-            // Collect form data
             const email = document.getElementById('signinEmail').value;
             const password = document.getElementById('signinPassword').value;
 
-            // Data to send to backend
             const data = { email, password };
 
             try {
-                // Send POST request to backend
                 const response = await fetch('http://localhost:3000/api/signin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data) // Convert data to JSON
+                    body: JSON.stringify(data) 
                 });
 
-                const result = await response.json(); // Parse response as JSON
+                const result = await response.json(); 
                 if (response.ok) {
                     alert('Signin successful');
-                    localStorage.setItem('token', result.token); // Save token in local storage
-                    window.location.href = 'dashboard.html'; // Redirect to dashboard
+                    localStorage.setItem('token', result.token); 
+                    window.location.href = 'dashboard.html'; 
                 } else {
-                    alert(result.error); // Show error message
+                    alert(result.error); 
                 }
             } catch (error) {
-                console.error('Error:', error); // Log any errors
+                console.error('Error:', error); 
                 alert('An error occurred. Please try again later.');
             }
         }
 
-        // Attach the handleSignin function to the form's submit event
         document.getElementById('signinForm').addEventListener('submit', handleSignin);
     </script>
 </body>

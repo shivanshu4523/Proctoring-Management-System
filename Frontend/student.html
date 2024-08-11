@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<script src="js/bootstrap.min.js"></script>
 <body>
     <style>
         .container {
@@ -159,7 +160,6 @@
     document.getElementById('student-form').addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Collect form data
         const rollNo = document.getElementById('rollNo').value;
         const name = document.getElementById('name').value;
         const branch = document.getElementById('branch').value;
@@ -167,10 +167,8 @@
         const place = document.getElementById('place').value;
         const punishment = document.getElementById('punishment').value;
 
-        // Prepare data to be sent
         const data = { rollNo, name, branch, misbehavior, place, punishment };
 
-        // Get the token from local storage
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -179,7 +177,6 @@
         }
 
         try {
-            // Send data to the backend server
             const response = await fetch('http://localhost:3000/api/students', {
                 method: 'POST',
                 headers: {
@@ -192,10 +189,9 @@
             if (response.ok) {
                 alert('Student added successfully');
                 document.getElementById('student-form').reset();
-                // Redirect to the record section
                 document.getElementById('add-students-section').classList.add('hidden');
                 document.getElementById('previous-records-section').classList.remove('hidden');
-                fetchStudentRecords(); // Fetch the updated student records
+                fetchStudentRecords(); 
             } else {
                 const errorData = await response.json();
                 alert(`Failed to add student: ${errorData.error}`);
@@ -210,7 +206,6 @@
     document.getElementById('previous-records-link').addEventListener('click', async () => {
         await fetchStudentRecords();
 
-        // Update active class for nav items
         document.getElementById('previous-records-link').classList.add('active');
         document.getElementById('add-students-link').classList.remove('active');
     });
@@ -219,7 +214,6 @@
         document.getElementById('add-students-section').classList.remove('hidden');
         document.getElementById('previous-records-section').classList.add('hidden');
 
-        // Update active class for nav items
         document.getElementById('add-students-link').classList.add('active');
         document.getElementById('previous-records-link').classList.remove('active');
     });
@@ -230,10 +224,10 @@
     
 
     document.getElementById('logout').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default action (if any)
+        event.preventDefault(); 
         if (confirm('You are logged out. Click OK to proceed.')) {
-            localStorage.removeItem('token'); // Remove the token from local storage
-            window.location.href = 'index.html'; // Redirect to the login page
+            localStorage.removeItem('token'); 
+            window.location.href = 'index.html'; 
         }
     });
 
@@ -276,7 +270,6 @@
                 document.getElementById('add-students-section').classList.add('hidden');
             document.getElementById('previous-records-section').classList.remove('hidden');
 
-            // Update active class for nav items
             document.getElementById('previous-records-link').classList.add('active');
             document.getElementById('add-students-link').classList.remove('active');
             } else {

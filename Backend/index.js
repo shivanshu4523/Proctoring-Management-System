@@ -2,23 +2,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const bcrypt = require('bcrypt'); // Import bcrypt for hashing passwords
+const bcrypt = require('bcrypt'); 
 const route = require('./route');
 const jwt = require('jsonwebtoken');
 
-// const JWT_SECRET = process.env.JWT_SECRET;
 
 
-// Initialize Express app
 const app = express();
-const PORT = 3000; // Port number
+const PORT = 3000; 
 
 // Middleware
-app.use(bodyParser.json()); // Parse JSON data
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded data
-app.use(cors()); // Enable CORS to allow requests from your frontend
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cors()); 
 
-// Connect to MongoDB
+
 mongoose.connect('mongodb://localhost:27017/MyProjects', {
     // useNewUrlParser: true,
     // useUnifiedTopology: true
@@ -26,7 +24,7 @@ mongoose.connect('mongodb://localhost:27017/MyProjects', {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Define the User model
+
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true },
@@ -34,30 +32,25 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-// Define a route to handle signup requests
 app.post('/signup', async (req, res) => {
-    const { username, email, password, confirmPassword } = req.body; // Extract data from request body
-
-    // Check if password and confirmPassword match
+    const { username, email, password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
-        return res.status(400).json({ error: 'Passwords do not match' }); // Send error response
+        return res.status(400).json({ error: 'Passwords do not match' }); 
     }
 
     try {
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ error: 'Email already registered' }); // Send error response
+            return res.status(400).json({ error: 'Email already registered' }); 
         }
 
-        // Hash the password before saving to database
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({ username, email, password: hashedPassword }); // Create new user instance
-        await newUser.save(); // Save user to MongoDB
-        res.status(201).json({ message: 'User created successfully!' }); // Send success response
+        const newUser = new User({ username, email, password: hashedPassword }); 
+        await newUser.save(); 
+        res.status(201).json({ message: 'User created successfully!' }); 
     } catch (error) {
-        res.status(400).json({ error: 'Error creating user' }); // Send error response
+        res.status(400).json({ error: 'Error creating user' }); 
     }
 });
 
@@ -88,10 +81,8 @@ app.post('/signup', async (req, res) => {
 
 
 
-// Use the route module
 app.use('/api', route);
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
