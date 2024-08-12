@@ -54,32 +54,22 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+// Middleware to verify token
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1];
 
-/////////////////////////////////////////////
+    if (!token) {
+        return res.status(403).json({ error: 'No token provided' });
+    }
 
-// // Middleware to verify token
-// const verifyToken = (req, res, next) => {
-//     const token = req.headers['authorization']?.split(' ')[1];
-
-//     if (!token) {
-//         return res.status(403).json({ error: 'No token provided' });
-//     }
-
-//     jwt.verify(token, secret, (err, decoded) => {
-//         if (err) {
-//             return res.status(403).json({ error: 'Failed to authenticate token' });
-//         }
-//         req.userId = decoded.id;
-//         next();
-//     });
-// };
-
-
-
-///////////////////////
-
-
-
+    jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ error: 'Failed to authenticate token' });
+        }
+        req.userId = decoded.id;
+        next();
+    });
+};
 
 app.use('/api', route);
 

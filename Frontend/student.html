@@ -12,7 +12,7 @@
     <style>
         .container {
             max-width: 900px;
-            margin-top: 30px;
+            /* margin-top: 30px; */
         }
         .card {
             border-radius: 0.5rem;
@@ -52,6 +52,23 @@
             width: 100%;
             table-layout: fixed;
         }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            margin-left: 220px ;
+        }
+        .user-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
     </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -65,13 +82,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" id="add-students-link">Add Students</a>
+                        <a class="nav-link active" href="" id="add-students-link">Add Students</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="previous-records-link">Previous Record</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="" id="logout">Logout</a>
+                        <a class="nav-link" href="" id="logout" title="Logout Now">Logout</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <div class="user-profile">
+                            <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
+                            <span class="user-name">Proctor</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -223,14 +246,22 @@
 
     
 
-    document.getElementById('logout').addEventListener('click', function(event) {
-        event.preventDefault(); 
-        if (confirm('You are logged out. Click OK to proceed.')) {
-            localStorage.removeItem('token'); 
-            window.location.href = 'index.html'; 
+   // Function to get token from sessionStorage
+   function getToken() {
+            return sessionStorage.getItem('token');
         }
-    });
 
+        // Function to handle logout
+        document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear token from sessionStorage
+                sessionStorage.removeItem('token');
+                // Redirect to login page
+                window.location.href = 'index.html';
+            }
+        });
+        
 
     async function fetchStudentRecords() {
         const token = localStorage.getItem('token');

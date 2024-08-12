@@ -9,7 +9,6 @@
     <script src="script.js"></script>
 </head>
 <body>
-
     <style>
         .navbar-nav .nav-link {
             transition: color 0.3s ease;
@@ -30,13 +29,34 @@
         .card-body {
             min-height: 200px; 
         }
-    </style>
 
+        /* User profile styles */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            margin-left: 490px ;
+        }
+        .user-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="dashboard.html">
                 <img src="img/download.png" alt="Logo" class="logo-img" id="logo1">
-                Proctor Dashboard</a>
+                Proctor Dashboard
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,35 +71,39 @@
                     <li class="nav-item">
                         <a class="nav-link" href="record.html">View Record</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Settings
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="">Profile Settings</a></li>
+                            <li><a class="dropdown-item" href="">Account Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="">Change Password</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Settings
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="">Profile Settings</a></li>
-                                <li><a class="dropdown-item" href="">Account Settings</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="">Change Password</a></li>
-                            </ul>
-                        </li>
-                        
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html" id="logout">Logout  </a>
+                        <a class="nav-link" href="#" id="logout" title="Logout Now">Logout</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <div class="user-profile">
+                            <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
+                            <span class="user-name">Proctor</span>
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4" >
+    <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-12" >
-                <div class="card mb-4" >
-                    <div class="card-header" >
+            <div class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-header">
                         Dashboard Overview
                     </div>
-                    <div class="card-body" >
+                    <div class="card-body">
                         <h5 class="card-title">Welcome, Proctor!</h5>
                         <p class="card-text">This is your dashboard. Here you can manage students, record misbehaviors, assign punishments, and more.</p>
                     </div>
@@ -101,7 +125,7 @@
                 <div class="card h-100 shadow">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">View Records</h5>
-                        <p class="card-text">View, manage and Search student records.</p>
+                        <p class="card-text">View, manage, and search student records.</p>
                         <a href="record.html" class="btn btn-primary">Go to View Records</a>
                     </div>
                 </div>
@@ -110,7 +134,7 @@
                 <div class="card h-100 shadow">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Manage Misbehaviors</h5>
-                        <p class="card-text">Record and manage  student misbehaviors.</p>
+                        <p class="card-text">Record and manage student misbehaviors.</p>
                         <a href="" class="btn btn-primary">Go to Manage Misbehaviors</a>
                     </div>
                 </div>
@@ -119,29 +143,53 @@
                 <div class="card h-100 shadow">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Approve Punishments</h5>
-                        <p class="card-text">Approve punishments to students    [by HODs].</p>
+                        <p class="card-text">Approve punishments to students [by HODs].</p>
                         <a href="" class="btn btn-primary">Go to Approve Punishments</a>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
     
     <script>
-                document.getElementById('logout').addEventListener('click', function(event) {
-            event.preventDefault(); 
-            if (confirm('You are logged out. Click OK to proceed.')) {
-                window.location.href = 'index.html'; 
-            }
-        });
-    </script>
+     // Function to get token from sessionStorage
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
+// Function to handle logout
+document.getElementById('logout').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    // Debugging information
+    console.log('Logout button clicked');
+
+    if (confirm('Are you sure you want to logout?')) {
+        // Clear token from sessionStorage
+        sessionStorage.removeItem('token');
+
+        // Debugging information
+        console.log('Token removed:', !getToken());
+
+        // Redirect to login page
+        window.location.href = 'index.html';
+    }
+});
+
+
+        // Example function to include token in a request
+        async function fetchWithToken(url, options = {}) {
+            const token = getToken();
+            if (token) {
+                options.headers = {
+                    ...options.headers,
+                    'Authorization': `Bearer ${token}`
+                };
+            }
+            return fetch(url, options);
+        }
+    </script>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-<!--  ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
