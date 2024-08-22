@@ -1,3 +1,4 @@
+
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -77,7 +78,13 @@ const signIn = async (req, res) => {
         const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
         client.close();
-        res.status(200).json({ message: 'Login successful', token });
+        
+        res.status(200).json({
+            message: 'Login successful',
+            token: token,
+            username: user.username // Assuming 'username' field exists in your user document
+        });
+
     } catch (error) {
         res.status(500).json({ error: 'Failed to login' });
     }

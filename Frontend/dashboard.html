@@ -7,8 +7,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script src="script.js"></script>
-</head>
-<body>
     <style>
         .navbar-nav .nav-link {
             transition: color 0.3s ease;
@@ -35,7 +33,7 @@
             display: flex;
             align-items: center;
             color: #ffffff;
-            margin-left: 490px ;
+            margin-left: 470px;
         }
         .user-photo {
             width: 40px;
@@ -72,14 +70,14 @@
                         <a class="nav-link" href="record.html">View Record</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Settings
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="">Profile Settings</a></li>
-                            <li><a class="dropdown-item" href="">Account Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="">Change Password</a></li>
+                            <li><a class="dropdown-item" href="#">Change Password</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -88,7 +86,8 @@
                     <li class="nav-item d-flex align-items-center">
                         <div class="user-profile">
                             <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
-                            <span class="user-name">Proctor</span>
+                            <!-- Placeholder for username -->
+                            <span id="userName" class="user-name">Proctor</span>
                         </div>
                     </li>
                 </ul>
@@ -104,7 +103,8 @@
                         Dashboard Overview
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Welcome, Proctor!</h5>
+                        <!-- Placeholder for dynamic username -->
+                        <h5 class="card-title">Welcome, <span id="welcomeName">Proctor</span>!</h5>
                         <p class="card-text">This is your dashboard. Here you can manage students, record misbehaviors, assign punishments, and more.</p>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Manage Misbehaviors</h5>
                         <p class="card-text">Record and manage student misbehaviors.</p>
-                        <a href="" class="btn btn-primary">Go to Manage Misbehaviors</a>
+                        <a href="#" class="btn btn-primary">Go to Manage Misbehaviors</a>
                     </div>
                 </div>
             </div>
@@ -144,50 +144,50 @@
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Approve Punishments</h5>
                         <p class="card-text">Approve punishments to students [by HODs].</p>
-                        <a href="" class="btn btn-primary">Go to Approve Punishments</a>
+                        <a href="#" class="btn btn-primary">Go to Approve Punishments</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
-     // Function to get token from sessionStorage
-function getToken() {
-    return sessionStorage.getItem('token');
-}
-
-// Function to handle logout
-document.getElementById('logout').addEventListener('click', function(event) {
-    event.preventDefault();
-    
-    // Debugging information
-    console.log('Logout button clicked');
-
-    if (confirm('Are you sure you want to logout?')) {
-        // Clear token from sessionStorage
-        sessionStorage.removeItem('token');
-
-        // Debugging information
-        console.log('Token removed:', !getToken());
-
-        // Redirect to login page
-        window.location.href = 'index.html';
-    }
-});
-
-
-        // Example function to include token in a request
-        async function fetchWithToken(url, options = {}) {
-            const token = getToken();
-            if (token) {
-                options.headers = {
-                    ...options.headers,
-                    'Authorization': `Bearer ${token}`
-                };
-            }
-            return fetch(url, options);
+        // Function to get token from sessionStorage
+        function getToken() {
+            return sessionStorage.getItem('token');
         }
+
+        // Function to get username from sessionStorage
+        function getUsername() {
+            return sessionStorage.getItem('username');
+        }
+
+        // Function to handle logout
+        document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear token and username from sessionStorage
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('username');
+
+                // Redirect to login page
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Function to update user details on the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = getUsername();
+            if (username) {
+                // Update username in the dashboard
+                document.getElementById('userName').textContent = username;
+                document.getElementById('welcomeName').textContent = username;
+            } else {
+                // Fallback if username is not found
+                console.log('Username not found in sessionStorage');
+            }
+        });
     </script>
 
     <script src="js/bootstrap.bundle.min.js"></script>

@@ -62,6 +62,7 @@
                 if (response.ok) {
                     alert('Signin successful');
                     localStorage.setItem('token', result.token); 
+                    sessionStorage.setItem('username', result.username); // Store username from API response
                     window.location.href = 'dashboard.html'; 
                 } else {
                     alert(result.error); 
