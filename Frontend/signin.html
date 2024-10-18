@@ -26,6 +26,21 @@
                                 <label for="signinPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control login-form-control" id="signinPassword" name="password" required>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Position</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="position" id="manager" value="manager" required>
+                                    <label class="form-check-label" for="manager">
+                                        Proctor
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="position" id="developer" value="developer" required>
+                                    <label class="form-check-label" for="developer">
+                                        HOD - Admin
+                                    </label>
+                                </div>
+                            </div> 
                             <button type="submit" class="btn btn-primary login-btn-primary">Login</button>
                         <div class="mt-3">
                             <p>New User? <a href="signup.html">Register here</a></p>
