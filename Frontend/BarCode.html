@@ -124,7 +124,7 @@
         }
 
         #video {
-            width: 50%;
+            width: 100%;
             border: 2px solid #ddd;
             border-radius: 10px;
             margin-top: 10px;
@@ -205,7 +205,7 @@
                     </li>
                 </ul>
                 <div class="user-profile">
-                    <img src="./img/ft7y.png" alt="User Photo" class="user-photo" >
+                    <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
                     <span class="user-name text-light">Proctor</span>
                 </div>
             </div>
@@ -226,15 +226,11 @@
             <h4>Scan Barcode with Camera</h4>
             <!-- <video id="video" autoplay></video> -->
             <div id="video-container" style="position: relative; width: 640px; height: 480px;">
-             
+
                 <video id="video" autoplay style="width: 100%; height: 100%; background-color: black;"></video>
-                <div id="barcode-result"></div>
+                <!-- <div id="barcode-result">Waiting for barcode...</div> -->
                 <!-- Thumbnail image -->
-                <img 
-                    id="video-thumbnail" 
-                    src="./img/scan5.jpeg" 
-                    alt="Thumbnail" 
-                    style="
+                <img id="video-thumbnail" src="./img/scan5.jpeg" alt="Thumbnail" style="
                         position: absolute; 
                         top: 10px; 
                         left: 270px; 
@@ -242,8 +238,7 @@
                         height: 100%; 
                         /* object-fit: cover;  */
                         z-index: 2; 
-                        display: block;"
-                />
+                        display: block;" />
             </div>
             <br>
             <button class="btn btn-primary" id="start-scan">Start Scanning</button>
@@ -295,100 +290,132 @@
     </footer>
 
     <script>
-document.getElementById("logout").addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent the default link behavior
-    const confirmation = confirm("Are you sure you want to logout?");
-    if (confirmation) {
-        // Redirect to the discipline.html page
-        window.location.href = "displine.html";
-    }
-});
-
-// Add a flag to track the camera stream
-let isCameraActive = false;
-
+        document.getElementById("logout").addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            const confirmation = confirm("Are you sure you want to logout?");
+            if (confirmation) {
+                // Redirect to the discipline.html page
+                window.location.href = "displine.html";
+            }
+        });
+       
 document.getElementById("start-scan").addEventListener("click", function () {
+    const video = document.querySelector("#video");
+    const thumbnail = document.getElementById("video-thumbnail");
+
     if (!isCameraActive) {
-        // Initialize camera stream
         navigator.mediaDevices
             .getUserMedia({ video: { facingMode: "environment" } })
             .then((stream) => {
-                const video = document.querySelector("#video");
                 video.srcObject = stream;
-                isCameraActive = true; // Mark the camera as active
+                isCameraActive = true;
 
+                // Hide the thumbnail when the camera is active
+                thumbnail.style.display = "none";
 
-                    // Hide the thumbnail
-                    document.getElementById("video-thumbnail").style.display = "none";
-                initializeQuagga(stream);
+                initializeQuagga();
             })
-            .catch((error) => console.error("Error accessing camera:", error));
+            .catch((error) => {
+                console.error("Error accessing camera:", error);
+                alert("Failed to access the camera. Please check browser permissions and try again.");
+            });
     } else {
-        initializeQuagga(); // Camera is already active; just start QuaggaJS
+        console.log("Camera is already active.");
     }
 });
 
-function initializeQuagga(stream) {
-    // Initialize QuaggaJS
+let isCameraActive = false;
+let lastDetectedCode = null; // Store the last detected barcode
+let consecutiveSameCodeCount = 0; // Track consecutive identical reads
+
+function initializeQuagga() {
+    const video = document.querySelector("#video");
+
     Quagga.init(
         {
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: document.querySelector("#video"), // Ensure the correct video element
+                target: video,
                 constraints: {
-                    width: 10,
-                    height: 10,
-                    facingMode: "environment", // Back camera
+                    width: 640,
+                    height: 480,
+                    facingMode: "environment",
                 },
             },
             decoder: {
-                readers: ["code_128_reader", "ean_reader", "upc_reader"], // Barcode formats
+                readers: [
+                    "code_128_reader",
+                    "ean_reader",
+                    "upc_reader",
+                    "ean_8_reader",
+                    "code_39_reader",
+                    "code_93_reader",
+                    "i2of5_reader",
+                    "codabar_reader",
+                ],
             },
+            locate: true, // Enable barcode localization
+            numOfWorkers: navigator.hardwareConcurrency || 4, // Use optimal threads
+            debug: false, // Disable debug for better performance
         },
         function (err) {
             if (err) {
                 console.error("Error initializing Quagga: ", err);
                 return;
             }
-            console.log("Quagga initialized successfully!");
+            console.log("Quagga initialized successfully.");
             Quagga.start();
         }
     );
 
-    // Listen for detected barcodes
-    Quagga.onDetected(function (data) {
-        console.log("Barcode detected: ", data.codeResult.code);
-        document.getElementById("barcode-result").innerText =
-            "Detected Barcode: " + data.codeResult.code;
-
-        // Stop the scanner after detection
-        Quagga.stop();
-    });
-
-    // Optional: Log frame processing status
-    Quagga.onProcessed(function (result) {
-        console.log("Processing frames...");
-    });
+    Quagga.onDetected(handleDetectedBarcode);
 }
 
-// Cleanup resources when the user navigates away
-window.addEventListener("beforeunload", function () {
-    Quagga.stop(); // Ensure the scanner is stopped when the page unloads
-    if (isCameraActive) {
-        const video = document.querySelector("#video");
-        const stream = video.srcObject;
-        if (stream) {
-            const tracks = stream.getTracks();
-            tracks.forEach((track) => track.stop()); // Stop the camera stream
+function handleDetectedBarcode(result) {
+    if (result && result.codeResult) {
+        const detectedCode = result.codeResult.code;
+
+        // If the detected code is the same as the previous one, increase the count
+        if (detectedCode === lastDetectedCode) {
+            consecutiveSameCodeCount++;
+        } else {
+            consecutiveSameCodeCount = 1; // Reset the count if a new code is detected
+            lastDetectedCode = detectedCode; // Update the last detected code
+        }
+
+        // Confirm detection only if the code is read consistently multiple times
+        if (consecutiveSameCodeCount >= 3) {
+            console.log("Barcode detected:", detectedCode);
+            document.getElementById("barcode-result").innerText = `Detected Barcode: ${detectedCode}`;
+
+            // Stop scanning after detection
+            Quagga.stop();
+            stopCameraStream();
         }
     }
+}
+
+function stopCameraStream() {
+    const video = document.querySelector("#video");
+    const stream = video.srcObject;
+
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+    }
+
     isCameraActive = false;
+    video.srcObject = null; // Clear video element
+}
+
+window.addEventListener("beforeunload", function () {
+    Quagga.stop();
+    stopCameraStream();
 });
+</script>
 
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 
 </html>
