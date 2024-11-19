@@ -20,6 +20,7 @@
       {
         "listitem": "off"
       }
-    ]
+    ],
+    "no-inline-styles": "off"
   }
 }
