@@ -1,8 +1,6 @@
 body{
-    /* background-color: #c3e5fc; */
-    /* background: linear-gradient(112.4deg, rgb(176, 174, 225) 44.9%, rgb(135, 197, 235) 94.5%); */
+    /* background: linear-gradient(135deg, #1a73e8, #6c63ff); */
     background: linear-gradient(109.1deg, rgb(42, 132, 201) 14.6%, rgb(47, 249, 233) 108.2%);
-    /* background: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
     scroll-behavior: smooth;
     /* background-repeat: no-repeat; */
 }
