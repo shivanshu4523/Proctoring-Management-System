@@ -90,32 +90,6 @@ const signIn = async (req, res) => {
     }
 };
 
-// // SignIn function (alternate)
-// exports.signin = async (req, res) => {
-//     const { email, password } = req.body;
-
-//     try {
-//         // Find the user by email
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(400).json({ error: 'Invalid email or password' });
-//         }
-
-//         // Check if the password is correct
-//         const isMatch = await bcrypt.compare(password, user.password);
-//         if (!isMatch) {
-//             return res.status(400).json({ error: 'Invalid email or password' });
-//         }
-
-//         // Generate a JWT token
-//         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-
-//         res.status(200).json({ token });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Server error' });
-//     }
-// };
 
 // Token verification middleware
 const verifyToken = (req, res, next) => {
@@ -178,24 +152,53 @@ const getAllStudentRecords = async (req, res) => {
     }
 };
 
+// const searchStudents = async (req, res) => {
+//     try {
+//         const client = await MongoClient.connect('mongodb://localhost:27017/');
+//         const coll = client.db('MyProjects').collection('records');
+//         const { name, date, rollNo, department } = req.query;
+
+//         let query = {};
+//         if (name) query.name = new RegExp(name, 'i'); 
+//         if (date) query.date = date;
+//         if (rollNo) query.rollNo = rollNo;
+//         if (department) query.branch = new RegExp(department, 'i'); 
+//         const students = await coll.find(query).toArray();
+
+//         client.close();
+//         res.status(200).json(students);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to fetch students' });
+//     }
+// };
+
+// let dbClient;
+
+async function initializeDbConnection() {
+    if (!dbClient) {
+        dbClient = await MongoClient.connect('mongodb://localhost:27017/');
+    }
+    return dbClient.db('MyProjects').collection('records');
+}
+
 const searchStudents = async (req, res) => {
     try {
-        const client = await MongoClient.connect('mongodb://localhost:27017/');
-        const coll = client.db('MyProjects').collection('records');
+        const coll = await initializeDbConnection();
         const { name, date, rollNo, department } = req.query;
 
         let query = {};
-        if (name) query.name = new RegExp(name, 'i'); 
+        if (name) query.name = new RegExp(name, 'i');
         if (date) query.date = date;
         if (rollNo) query.rollNo = rollNo;
-        if (department) query.branch = new RegExp(department, 'i'); 
-        const students = await coll.find(query).toArray();
+        if (department) query.branch = new RegExp(department, 'i');
 
-        client.close();
+        const students = await coll.find(query).toArray();
         res.status(200).json(students);
     } catch (error) {
+        console.error('Error fetching students:', error);
         res.status(500).json({ error: 'Failed to fetch students' });
     }
 };
+
 
 module.exports = { home, signUp, signIn, addStudent, getStudents, getAllStudentRecords, searchStudents, verifyToken };
