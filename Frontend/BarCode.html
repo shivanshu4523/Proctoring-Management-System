@@ -494,46 +494,48 @@ window.addEventListener("beforeunload", function () {
 
 
 <script>
-    // Function to fetch student details from backend and display in the table
+    // Function to fetch student details from backend and display them in the table
     async function fetchStudentDetailsByRollNo(rollNo) {
         const apiUrl = `http://localhost:3000/api/student/${rollNo}`; // Backend endpoint
 
         try {
             const response = await fetch(apiUrl);
             if (response.ok) {
-                const student = await response.json();
-                populateTableWithStudentDetails(student); // Display data in the table
+                const students = await response.json(); // Expecting an array of students
+                populateTableWithStudentDetails(students); // Display data in the table
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.message}`);
             }
         } catch (error) {
             console.error('Error fetching student details:', error);
-            alert('An error occurred while fetching the student details. Check console for more info.');
+            alert('An error occurred while fetching the student details. Check the console for more info.');
         }
     }
 
-    // Function to populate table with fetched student details
-    function populateTableWithStudentDetails(student) {
+    // Function to populate the table with fetched student details
+    function populateTableWithStudentDetails(students) {
         const recordsTableBody = document.getElementById('recordsTableBody');
-        // recordsTableBody.innerHTML = ''; // Clear any previous data
+        recordsTableBody.innerHTML = ''; // Clear any previous data
 
-        // Create a new table row with student details
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${student.date || '-'}</td>
-            <td>${student.rollNo || '-'}</td>
-            <td>${student.name || '-'}</td>
-            <td>${student.branch || '-'}</td>
-            <td>${student.misbehavior || '-'}</td>
-            <td>${student.place || '-'}</td>
-            <td>${student.punishment || '-'}</td>
-            <td class="text-center action-icons">
-                <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
-                <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
-            </td>
-        `;
-        recordsTableBody.appendChild(row);
+        // Iterate through the array of students and create a table row for each
+        students.forEach((student) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${student.date || '-'}</td>
+                <td>${student.rollNo || '-'}</td>
+                <td>${student.name || '-'}</td>
+                <td>${student.branch || '-'}</td>
+                <td>${student.misbehavior || '-'}</td>
+                <td>${student.place || '-'}</td>
+                <td>${student.punishment || '-'}</td>
+                <td class="text-center action-icons">
+                    <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
+                    <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            recordsTableBody.appendChild(row); // Append the row to the table body
+        });
     }
 
     // Event listener for barcode detection and fetching student details
@@ -546,7 +548,7 @@ window.addEventListener("beforeunload", function () {
                 const img = new Image();
                 img.src = e.target.result;
                 img.onload = function () {
-                    processImageForBarcode(img);
+                    processImageForBarcode(img); // Process the uploaded image
                 };
             };
             reader.readAsDataURL(file);
@@ -555,7 +557,7 @@ window.addEventListener("beforeunload", function () {
         }
     });
 
-    // Process image for barcode and fetch details
+    // Process the uploaded image for barcode and fetch details
     function processImageForBarcode(img) {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -566,14 +568,14 @@ window.addEventListener("beforeunload", function () {
         Quagga.decodeSingle(
             {
                 decoder: {
-                    readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"],
+                    readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"], // Supported barcode types
                 },
                 locate: true,
                 src: canvas.toDataURL(),
             },
             function (result) {
                 if (result && result.codeResult) {
-                    const barcodeValue = result.codeResult.code;
+                    const barcodeValue = result.codeResult.code; // Extracted barcode value
                     document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
 
                     // Fetch student details by roll number (barcodeValue)

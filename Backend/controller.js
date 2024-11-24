@@ -212,7 +212,6 @@ const searchStudents = async (req, res) => {
 // };
 
 
-
 const getStudentByRollNo = async (req, res) => {
     try {
         const { rollno } = req.params;
@@ -221,18 +220,21 @@ const getStudentByRollNo = async (req, res) => {
         const client = await MongoClient.connect('mongodb://localhost:27017/');
         const coll = client.db('MyProjects').collection('records');
 
-        // Query for the student
-        const student = await coll.findOne({ rollNo: rollno });  // <-- Change to rollNo
-        client.close();
+  // Query for the student using a case-insensitive regex
+  const students = await coll
+  .find({ rollNo: { $regex: new RegExp(`^${rollno}$`, 'i') } })
+  .toArray(); // Fetch all matching records
+client.close()
 
-        if (!student) {
-            return res.status(404).json({ message: 'Student not found' });
+        if (!students || students.length === 0) {
+            return res.status(404).json({ message: 'No records found for this roll number' });
         }
 
-        res.status(200).json(student);
+        // Return the array of students
+        res.status(200).json(students);
     } catch (error) {
-        console.error('Error fetching student by roll number:', error);
-        res.status(500).json({ message: 'Error fetching student', error });
+        console.error('Error fetching students by roll number:', error);
+        res.status(500).json({ message: 'Error fetching student records', error });
     }
 };
 
