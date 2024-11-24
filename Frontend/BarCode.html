@@ -540,7 +540,7 @@
             ${student.evidence ? `<button class="btn btn-link" onclick="redirectToEvidence('${student.evidence}')">View Evidence</button>` : '-'}
         </td>
       <td class="text-center action-icons">
-    <button class="btn btn-warning send-to-hod" data-id="${student._id}">
+    <button class="btn btn-warning send-to-hod" data-id="${student._id}" data-barcode="${student.rollNo}">
         Send to HOD <i class="bi bi-send"></i>
     </button>
 </td>
@@ -599,27 +599,82 @@
             );
         }
 
+// // Copy button functionality
+// document.getElementById('copy-barcode').addEventListener('click', function () {
+//     const barcodeResult = document.getElementById('image-barcode-result').innerText;
 
-        // Copy button functionality
-        document.getElementById('copy-barcode').addEventListener('click', function () {
-            const barcodeResult = document.getElementById('image-barcode-result').innerText;
+//     // Extract only the barcode value (text after "Barcode Detected: ")
+//     const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
 
-            // Extract only the barcode value (text after "Barcode Detected: ")
-            const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
+//     if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
+//         // Copy the barcode value to the clipboard
+//         navigator.clipboard.writeText(barcodeValue).then(() => {
+//             alert('Barcode copied');
 
-            if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
-                // Copy the barcode value to the clipboard
-                navigator.clipboard.writeText(barcodeValue).then(() => {
-                    alert('Barcode copied');
-                }).catch((error) => {
-                    console.error('Failed to copy text: ', error);
-                    alert('Failed to copy the barcode value.');
-                });
-            } else {
-                alert('No valid barcode value to copy.');
-            }
+//             // Store the barcode value in localStorage
+//             localStorage.setItem("barcode", barcodeValue);
+
+//             // Redirect to notification.html page
+//             window.location.href = "notification.html";
+//         }).catch((error) => {
+//             console.error('Failed to copy text: ', error);
+//             alert('Failed to copy the barcode value.');
+//         });
+//     } else {
+//         alert('No valid barcode value to copy.');
+//     }
+// });
+
+
+
+// Example student data. Replace this with a dynamic API/database fetch.
+const studentData = [
+    { rollNo: "2021CSDS048", name: "Shivanshu", branch: "CSE-DS" },
+    { rollNo: "2021CSDS149", name: "Yash Kumar", branch: "CSE-DS" },
+    { rollNo: "2021CSDS141", name: "Saurabh Dhama", branch: "CSE-DS" },
+];
+
+// Copy button functionality
+document.getElementById('copy-barcode').addEventListener('click', function () {
+    const barcodeResult = document.getElementById('image-barcode-result').innerText;
+
+    // Extract the barcode value
+    const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
+
+    if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
+        // Find student details dynamically
+        const student = studentData.find(student => student.rollNo === barcodeValue);
+
+        if (!student) {
+            alert('Student not found for this barcode!');
+            return;
+        }
+
+        // Clear old data from localStorage
+        localStorage.removeItem("studentName");
+        localStorage.removeItem("barcode");
+        localStorage.removeItem("studentBranch");
+
+        // Store the student details in localStorage
+        localStorage.setItem("studentName", student.name);
+        localStorage.setItem("barcode", barcodeValue);
+        localStorage.setItem("studentBranch", student.branch);
+
+        // Copy barcode value to clipboard
+        navigator.clipboard.writeText(barcodeValue).then(() => {
+            alert('Barcode copied! Redirecting...');
+            // Redirect after a short delay to ensure `localStorage` update
+            setTimeout(() => {
+                window.location.href = "notification.html";
+            }, 200); // Delay for reliable redirect
+        }).catch((error) => {
+            console.error('Failed to copy text: ', error);
+            alert('Failed to copy the barcode value.');
         });
-
+    } else {
+        alert('No valid barcode value to copy.');
+    }
+});
 
 
         function redirectToEvidence(link) {
