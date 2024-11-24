@@ -161,7 +161,8 @@ const searchStudents = async (req, res) => {
         let query = {};
         if (name) query.name = new RegExp(name, 'i'); 
         if (date) query.date = date;
-        if (rollNo) query.rollNo = rollNo;
+        // if (rollNo) query.rollNo = rollNo;
+        if (rollNo) query.rollNo = new RegExp(`^${rollNo}$`, 'i'); 
         if (department) query.branch = new RegExp(department, 'i'); 
         const students = await coll.find(query).toArray();
 
