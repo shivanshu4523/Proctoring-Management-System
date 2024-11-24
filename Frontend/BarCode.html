@@ -242,7 +242,12 @@
             </div>
             <br>
             <button class="btn btn-primary" id="start-scan">Start Scanning</button>
-            <div id="image-barcode-result" class="mt-3">Waiting for barcode...</div>
+            <!-- <div id="image-barcode-result" class="mt-3">Waiting for barcode...</div> -->
+            <div class="mt-3 d-flex align-items-center">
+                <div id="image-barcode-result" class="me-2">Waiting for barcode...</div>
+                <button id="copy-barcode" class="btn btn-sm btn-outline-secondary">Copy</button>
+            </div>
+            
         </div>
 
         <div class="section">
@@ -270,6 +275,7 @@
                                         <th>Misbehavior</th>
                                         <th>Place</th>
                                         <th>Punishment</th>
+                                        <th>Evidence</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -529,6 +535,9 @@ window.addEventListener("beforeunload", function () {
                 <td>${student.misbehavior || '-'}</td>
                 <td>${student.place || '-'}</td>
                 <td>${student.punishment || '-'}</td>
+                <td>
+            ${student.evidence ? `<button class="btn btn-link" onclick="redirectToEvidence('${student.evidence}')">View Evidence</button>` : '-'}
+        </td>
                 <td class="text-center action-icons">
                     <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
                     <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
@@ -586,6 +595,40 @@ window.addEventListener("beforeunload", function () {
             }
         );
     }
+
+
+    // Copy button functionality
+document.getElementById('copy-barcode').addEventListener('click', function () {
+    const barcodeResult = document.getElementById('image-barcode-result').innerText;
+
+    // Extract only the barcode value (text after "Barcode Detected: ")
+    const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
+
+    if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
+        // Copy the barcode value to the clipboard
+        navigator.clipboard.writeText(barcodeValue).then(() => {
+            alert('Barcode copied');
+        }).catch((error) => {
+            console.error('Failed to copy text: ', error);
+            alert('Failed to copy the barcode value.');
+        });
+    } else {
+        alert('No valid barcode value to copy.');
+    }
+});
+
+
+
+function redirectToEvidence(link) {
+    if (link) {
+        window.open(link, '_blank'); // Open the link in a new tab
+    } else {
+        alert('No valid evidence link available.');
+    }
+}
+
+
+
 </script>
 
 
