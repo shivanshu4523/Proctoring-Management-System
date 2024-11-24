@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script src="https://unpkg.com/quagga/dist/quagga.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+        rel="stylesheet">
 
     <style>
         body {
@@ -247,7 +248,7 @@
                 <div id="image-barcode-result" class="me-2">Waiting for barcode...</div>
                 <button id="copy-barcode" class="btn btn-sm btn-outline-secondary">Copy</button>
             </div>
-            
+
         </div>
 
         <div class="section">
@@ -269,14 +270,14 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Roll Number</th>
+                                        <th>Roll No</th>
                                         <th>Name</th>
                                         <th>Branch</th>
                                         <th>Misbehavior</th>
                                         <th>Place</th>
                                         <th>Punishment</th>
                                         <th>Evidence</th>
-                                        <th>Actions</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="recordsTableBody">
@@ -304,230 +305,230 @@
                 window.location.href = "displine.html";
             }
         });
-       
-document.getElementById("start-scan").addEventListener("click", function () {
-    const video = document.querySelector("#video");
-    const thumbnail = document.getElementById("video-thumbnail");
 
-    if (!isCameraActive) {
-        navigator.mediaDevices
-            .getUserMedia({ video: { facingMode: "environment" } })
-            .then((stream) => {
-                video.srcObject = stream;
-                isCameraActive = true;
+        document.getElementById("start-scan").addEventListener("click", function () {
+            const video = document.querySelector("#video");
+            const thumbnail = document.getElementById("video-thumbnail");
 
-                // Hide the thumbnail when the camera is active
-                thumbnail.style.display = "none";
+            if (!isCameraActive) {
+                navigator.mediaDevices
+                    .getUserMedia({ video: { facingMode: "environment" } })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        isCameraActive = true;
 
-                initializeQuagga();
-            })
-            .catch((error) => {
-                console.error("Error accessing camera:", error);
-                alert("Failed to access the camera. Please check browser permissions and try again.");
-            });
-    } else {
-        console.log("Camera is already active.");
-    }
-});
+                        // Hide the thumbnail when the camera is active
+                        thumbnail.style.display = "none";
 
-let isCameraActive = false;
-let lastDetectedCode = null; // Store the last detected barcode
-let consecutiveSameCodeCount = 0; // Track consecutive identical reads
-
-function initializeQuagga() {
-    const video = document.querySelector("#video");
-
-    Quagga.init(
-        {
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: video,
-                constraints: {
-                    width: 640,
-                    height: 480,
-                    facingMode: "environment",
-                },
-            },
-            decoder: {
-                readers: [
-                    "code_128_reader",
-                    "ean_reader",
-                    "upc_reader",
-                    "ean_8_reader",
-                    "code_39_reader",
-                    "code_93_reader",
-                    "i2of5_reader",
-                    "codabar_reader",
-                ],
-            },
-            locate: true, // Enable barcode localization
-            numOfWorkers: navigator.hardwareConcurrency || 4, // Use optimal threads
-            debug: false, // Disable debug for better performance
-        },
-        function (err) {
-            if (err) {
-                console.error("Error initializing Quagga: ", err);
-                return;
+                        initializeQuagga();
+                    })
+                    .catch((error) => {
+                        console.error("Error accessing camera:", error);
+                        alert("Failed to access the camera. Please check browser permissions and try again.");
+                    });
+            } else {
+                console.log("Camera is already active.");
             }
-            console.log("Quagga initialized successfully.");
-            Quagga.start();
+        });
+
+        let isCameraActive = false;
+        let lastDetectedCode = null; // Store the last detected barcode
+        let consecutiveSameCodeCount = 0; // Track consecutive identical reads
+
+        function initializeQuagga() {
+            const video = document.querySelector("#video");
+
+            Quagga.init(
+                {
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: video,
+                        constraints: {
+                            width: 640,
+                            height: 480,
+                            facingMode: "environment",
+                        },
+                    },
+                    decoder: {
+                        readers: [
+                            "code_128_reader",
+                            "ean_reader",
+                            "upc_reader",
+                            "ean_8_reader",
+                            "code_39_reader",
+                            "code_93_reader",
+                            "i2of5_reader",
+                            "codabar_reader",
+                        ],
+                    },
+                    locate: true, // Enable barcode localization
+                    numOfWorkers: navigator.hardwareConcurrency || 4, // Use optimal threads
+                    debug: false, // Disable debug for better performance
+                },
+                function (err) {
+                    if (err) {
+                        console.error("Error initializing Quagga: ", err);
+                        return;
+                    }
+                    console.log("Quagga initialized successfully.");
+                    Quagga.start();
+                }
+            );
+
+            Quagga.onDetected(handleDetectedBarcode);
         }
-    );
 
-    Quagga.onDetected(handleDetectedBarcode);
-}
+        function handleDetectedBarcode(result) {
+            if (result && result.codeResult) {
+                const detectedCode = result.codeResult.code;
 
-function handleDetectedBarcode(result) {
-    if (result && result.codeResult) {
-        const detectedCode = result.codeResult.code;
+                // If the detected code is the same as the previous one, increase the count
+                if (detectedCode === lastDetectedCode) {
+                    consecutiveSameCodeCount++;
+                } else {
+                    consecutiveSameCodeCount = 1; // Reset the count if a new code is detected
+                    lastDetectedCode = detectedCode; // Update the last detected code
+                }
 
-        // If the detected code is the same as the previous one, increase the count
-        if (detectedCode === lastDetectedCode) {
-            consecutiveSameCodeCount++;
-        } else {
-            consecutiveSameCodeCount = 1; // Reset the count if a new code is detected
-            lastDetectedCode = detectedCode; // Update the last detected code
+                // Confirm detection only if the code is read consistently multiple times
+                if (consecutiveSameCodeCount >= 3) {
+                    console.log("Barcode detected:", detectedCode);
+                    document.getElementById("barcode-result").innerText = `Detected Barcode: ${detectedCode}`;
+
+                    // Stop scanning after detection
+                    Quagga.stop();
+                    stopCameraStream();
+                }
+            }
         }
 
-        // Confirm detection only if the code is read consistently multiple times
-        if (consecutiveSameCodeCount >= 3) {
-            console.log("Barcode detected:", detectedCode);
-            document.getElementById("barcode-result").innerText = `Detected Barcode: ${detectedCode}`;
+        function stopCameraStream() {
+            const video = document.querySelector("#video");
+            const stream = video.srcObject;
 
-            // Stop scanning after detection
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach((track) => track.stop());
+            }
+
+            isCameraActive = false;
+            video.srcObject = null; // Clear video element
+        }
+
+        window.addEventListener("beforeunload", function () {
             Quagga.stop();
             stopCameraStream();
-        }
-    }
-}
+        });
+    </script>
 
-function stopCameraStream() {
-    const video = document.querySelector("#video");
-    const stream = video.srcObject;
+    <script>
+        // document.getElementById('upload-image').addEventListener('click', function () {
+        //     const imageInput = document.getElementById('imageInput');
+        //     if (imageInput.files && imageInput.files[0]) {
+        //         const file = imageInput.files[0];
+        //         const reader = new FileReader();
+        //         reader.onload = function (e) {
+        //             // Create an image element and load the file into it
+        //             const img = new Image();
+        //             img.src = e.target.result;
+        //             img.onload = function () {
+        //                 // Once the image is loaded, process it with Quagga
+        //                 processImageForBarcode(img);
+        //             };
+        //         };
+        //         reader.readAsDataURL(file);
+        //     } else {
+        //         alert("Please upload an image file.");
+        //     }
+        // });
 
-    if (stream) {
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-    }
+        // function processImageForBarcode(img) {
+        //     // Create a canvas to draw the image for QuaggaJS
+        //     const canvas = document.createElement('canvas');
+        //     const ctx = canvas.getContext('2d');
+        //     canvas.width = img.width;
+        //     canvas.height = img.height;
+        //     ctx.drawImage(img, 0, 0, img.width, img.height);
 
-    isCameraActive = false;
-    video.srcObject = null; // Clear video element
-}
+        //     // Process the image with Quagga to detect barcodes
+        //     Quagga.decodeSingle({
+        //         decoder: {
+        //             readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"]
+        //         },
+        //         locate: true, // Enables barcode locating
+        //         src: canvas.toDataURL()
+        //     }, function (result) {
+        //         if (result && result.codeResult) {
+        //             // If a barcode is detected, display the result
+        //             const barcodeValue = result.codeResult.code;
+        //             document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
 
-window.addEventListener("beforeunload", function () {
-    Quagga.stop();
-    stopCameraStream();
-});
-</script>
+        //             // Add the barcode value to the "Roll Number" column in the table
+        //             addRecordToTable(barcodeValue);
+        //         } else {
+        //             // If no barcode is detected, show a message
+        //             document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
+        //         }
+        //     });
+        // }
 
-<script>
-    // document.getElementById('upload-image').addEventListener('click', function () {
-    //     const imageInput = document.getElementById('imageInput');
-    //     if (imageInput.files && imageInput.files[0]) {
-    //         const file = imageInput.files[0];
-    //         const reader = new FileReader();
-    //         reader.onload = function (e) {
-    //             // Create an image element and load the file into it
-    //             const img = new Image();
-    //             img.src = e.target.result;
-    //             img.onload = function () {
-    //                 // Once the image is loaded, process it with Quagga
-    //                 processImageForBarcode(img);
-    //             };
-    //         };
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         alert("Please upload an image file.");
-    //     }
-    // });
+        // function addRecordToTable(barcodeValue) {
+        //     // Create a new row in the table
+        //     const newRow = document.createElement('tr');
 
-    // function processImageForBarcode(img) {
-    //     // Create a canvas to draw the image for QuaggaJS
-    //     const canvas = document.createElement('canvas');
-    //     const ctx = canvas.getContext('2d');
-    //     canvas.width = img.width;
-    //     canvas.height = img.height;
-    //     ctx.drawImage(img, 0, 0, img.width, img.height);
+        //     // Add the columns to the row with placeholders for other data
+        //     newRow.innerHTML = `
+        //         <td>${new Date().toLocaleDateString()}</td>  <!-- Current Date -->
+        //         <td>${barcodeValue}</td>                   <!-- Barcode (Roll Number) -->
+        //         <td>Yash Kumar</td>                          <!-- Placeholder Name -->
+        //         <td>CSE-DS</td>                  <!-- Placeholder Branch -->
+        //         <td>Disruption</td>                        <!-- Placeholder Misbehavior -->
+        //         <td>In Colledge</td>                           <!-- Placeholder Place -->
+        //         <td>Warning</td>                           <!-- Placeholder Punishment -->
+        //         <td>
+        //             <button class="btn btn-info btn-sm">Send to HOD</button>
+        //             <button class="btn btn-danger btn-sm">Delete</button>
+        //         </td>
+        //     `;
 
-    //     // Process the image with Quagga to detect barcodes
-    //     Quagga.decodeSingle({
-    //         decoder: {
-    //             readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"]
-    //         },
-    //         locate: true, // Enables barcode locating
-    //         src: canvas.toDataURL()
-    //     }, function (result) {
-    //         if (result && result.codeResult) {
-    //             // If a barcode is detected, display the result
-    //             const barcodeValue = result.codeResult.code;
-    //             document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
+        //     // Append the new row to the table body
+        //     document.getElementById('recordsTableBody').appendChild(newRow);
+        // }
 
-    //             // Add the barcode value to the "Roll Number" column in the table
-    //             addRecordToTable(barcodeValue);
-    //         } else {
-    //             // If no barcode is detected, show a message
-    //             document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
-    //         }
-    //     });
-    // }
-
-    // function addRecordToTable(barcodeValue) {
-    //     // Create a new row in the table
-    //     const newRow = document.createElement('tr');
-
-    //     // Add the columns to the row with placeholders for other data
-    //     newRow.innerHTML = `
-    //         <td>${new Date().toLocaleDateString()}</td>  <!-- Current Date -->
-    //         <td>${barcodeValue}</td>                   <!-- Barcode (Roll Number) -->
-    //         <td>Yash Kumar</td>                          <!-- Placeholder Name -->
-    //         <td>CSE-DS</td>                  <!-- Placeholder Branch -->
-    //         <td>Disruption</td>                        <!-- Placeholder Misbehavior -->
-    //         <td>In Colledge</td>                           <!-- Placeholder Place -->
-    //         <td>Warning</td>                           <!-- Placeholder Punishment -->
-    //         <td>
-    //             <button class="btn btn-info btn-sm">Send to HOD</button>
-    //             <button class="btn btn-danger btn-sm">Delete</button>
-    //         </td>
-    //     `;
-
-    //     // Append the new row to the table body
-    //     document.getElementById('recordsTableBody').appendChild(newRow);
-    // }
-    
-</script>
+    </script>
 
 
 
-<script>
-    // Function to fetch student details from backend and display them in the table
-    async function fetchStudentDetailsByRollNo(rollNo) {
-        const apiUrl = `http://localhost:3000/api/student/${rollNo}`; // Backend endpoint
+    <script>
+        // Function to fetch student details from backend and display them in the table
+        async function fetchStudentDetailsByRollNo(rollNo) {
+            const apiUrl = `http://localhost:3000/api/student/${rollNo}`; // Backend endpoint
 
-        try {
-            const response = await fetch(apiUrl);
-            if (response.ok) {
-                const students = await response.json(); // Expecting an array of students
-                populateTableWithStudentDetails(students); // Display data in the table
-            } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
+            try {
+                const response = await fetch(apiUrl);
+                if (response.ok) {
+                    const students = await response.json(); // Expecting an array of students
+                    populateTableWithStudentDetails(students); // Display data in the table
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('Error fetching student details:', error);
+                alert('An error occurred while fetching the student details. Check the console for more info.');
             }
-        } catch (error) {
-            console.error('Error fetching student details:', error);
-            alert('An error occurred while fetching the student details. Check the console for more info.');
         }
-    }
 
-    // Function to populate the table with fetched student details
-    function populateTableWithStudentDetails(students) {
-        const recordsTableBody = document.getElementById('recordsTableBody');
-        recordsTableBody.innerHTML = ''; // Clear any previous data
+        // Function to populate the table with fetched student details
+        function populateTableWithStudentDetails(students) {
+            const recordsTableBody = document.getElementById('recordsTableBody');
+            recordsTableBody.innerHTML = ''; // Clear any previous data
 
-        // Iterate through the array of students and create a table row for each
-        students.forEach((student) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
+            // Iterate through the array of students and create a table row for each
+            students.forEach((student) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
                 <td>${student.date || '-'}</td>
                 <td>${student.rollNo || '-'}</td>
                 <td>${student.name || '-'}</td>
@@ -538,100 +539,98 @@ window.addEventListener("beforeunload", function () {
                 <td>
             ${student.evidence ? `<button class="btn btn-link" onclick="redirectToEvidence('${student.evidence}')">View Evidence</button>` : '-'}
         </td>
-                <td class="text-center action-icons">
-                    <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
-                    <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
-                </td>
+      <td class="text-center action-icons">
+    <button class="btn btn-warning send-to-hod" data-id="${student._id}">
+        Send to HOD <i class="bi bi-send"></i>
+    </button>
+</td>
+
             `;
-            recordsTableBody.appendChild(row); // Append the row to the table body
-        });
-    }
-
-    // Event listener for barcode detection and fetching student details
-    document.getElementById('upload-image').addEventListener('click', function () {
-        const imageInput = document.getElementById('imageInput');
-        if (imageInput.files && imageInput.files[0]) {
-            const file = imageInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = function () {
-                    processImageForBarcode(img); // Process the uploaded image
-                };
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert("Please upload an image file.");
+                recordsTableBody.appendChild(row); // Append the row to the table body
+            });
         }
-    });
 
-    // Process the uploaded image for barcode and fetch details
-    function processImageForBarcode(img) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-
-        Quagga.decodeSingle(
-            {
-                decoder: {
-                    readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"], // Supported barcode types
-                },
-                locate: true,
-                src: canvas.toDataURL(),
-            },
-            function (result) {
-                if (result && result.codeResult) {
-                    const barcodeValue = result.codeResult.code; // Extracted barcode value
-                    document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
-
-                    // Fetch student details by roll number (barcodeValue)
-                    fetchStudentDetailsByRollNo(barcodeValue);
-                } else {
-                    document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
-                }
+        // Event listener for barcode detection and fetching student details
+        document.getElementById('upload-image').addEventListener('click', function () {
+            const imageInput = document.getElementById('imageInput');
+            if (imageInput.files && imageInput.files[0]) {
+                const file = imageInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function () {
+                        processImageForBarcode(img); // Process the uploaded image
+                    };
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("Please upload an image file.");
             }
-        );
-    }
-
-
-    // Copy button functionality
-document.getElementById('copy-barcode').addEventListener('click', function () {
-    const barcodeResult = document.getElementById('image-barcode-result').innerText;
-
-    // Extract only the barcode value (text after "Barcode Detected: ")
-    const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
-
-    if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
-        // Copy the barcode value to the clipboard
-        navigator.clipboard.writeText(barcodeValue).then(() => {
-            alert('Barcode copied');
-        }).catch((error) => {
-            console.error('Failed to copy text: ', error);
-            alert('Failed to copy the barcode value.');
         });
-    } else {
-        alert('No valid barcode value to copy.');
-    }
-});
+
+        // Process the uploaded image for barcode and fetch details
+        function processImageForBarcode(img) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+
+            Quagga.decodeSingle(
+                {
+                    decoder: {
+                        readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"], // Supported barcode types
+                    },
+                    locate: true,
+                    src: canvas.toDataURL(),
+                },
+                function (result) {
+                    if (result && result.codeResult) {
+                        const barcodeValue = result.codeResult.code; // Extracted barcode value
+                        document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
+
+                        // Fetch student details by roll number (barcodeValue)
+                        fetchStudentDetailsByRollNo(barcodeValue);
+                    } else {
+                        document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
+                    }
+                }
+            );
+        }
+
+
+        // Copy button functionality
+        document.getElementById('copy-barcode').addEventListener('click', function () {
+            const barcodeResult = document.getElementById('image-barcode-result').innerText;
+
+            // Extract only the barcode value (text after "Barcode Detected: ")
+            const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
+
+            if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
+                // Copy the barcode value to the clipboard
+                navigator.clipboard.writeText(barcodeValue).then(() => {
+                    alert('Barcode copied');
+                }).catch((error) => {
+                    console.error('Failed to copy text: ', error);
+                    alert('Failed to copy the barcode value.');
+                });
+            } else {
+                alert('No valid barcode value to copy.');
+            }
+        });
 
 
 
-function redirectToEvidence(link) {
-    if (link) {
-        window.open(link, '_blank'); // Open the link in a new tab
-    } else {
-        alert('No valid evidence link available.');
-    }
-}
+        function redirectToEvidence(link) {
+            if (link) {
+                window.open(link, '_blank'); // Open the link in a new tab
+            } else {
+                alert('No valid evidence link available.');
+            }
+        }
 
-
-
-</script>
-
-
+    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
