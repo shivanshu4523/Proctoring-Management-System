@@ -416,17 +416,136 @@ window.addEventListener("beforeunload", function () {
 </script>
 
 <script>
+    // document.getElementById('upload-image').addEventListener('click', function () {
+    //     const imageInput = document.getElementById('imageInput');
+    //     if (imageInput.files && imageInput.files[0]) {
+    //         const file = imageInput.files[0];
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             // Create an image element and load the file into it
+    //             const img = new Image();
+    //             img.src = e.target.result;
+    //             img.onload = function () {
+    //                 // Once the image is loaded, process it with Quagga
+    //                 processImageForBarcode(img);
+    //             };
+    //         };
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         alert("Please upload an image file.");
+    //     }
+    // });
+
+    // function processImageForBarcode(img) {
+    //     // Create a canvas to draw the image for QuaggaJS
+    //     const canvas = document.createElement('canvas');
+    //     const ctx = canvas.getContext('2d');
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     ctx.drawImage(img, 0, 0, img.width, img.height);
+
+    //     // Process the image with Quagga to detect barcodes
+    //     Quagga.decodeSingle({
+    //         decoder: {
+    //             readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"]
+    //         },
+    //         locate: true, // Enables barcode locating
+    //         src: canvas.toDataURL()
+    //     }, function (result) {
+    //         if (result && result.codeResult) {
+    //             // If a barcode is detected, display the result
+    //             const barcodeValue = result.codeResult.code;
+    //             document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
+
+    //             // Add the barcode value to the "Roll Number" column in the table
+    //             addRecordToTable(barcodeValue);
+    //         } else {
+    //             // If no barcode is detected, show a message
+    //             document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
+    //         }
+    //     });
+    // }
+
+    // function addRecordToTable(barcodeValue) {
+    //     // Create a new row in the table
+    //     const newRow = document.createElement('tr');
+
+    //     // Add the columns to the row with placeholders for other data
+    //     newRow.innerHTML = `
+    //         <td>${new Date().toLocaleDateString()}</td>  <!-- Current Date -->
+    //         <td>${barcodeValue}</td>                   <!-- Barcode (Roll Number) -->
+    //         <td>Yash Kumar</td>                          <!-- Placeholder Name -->
+    //         <td>CSE-DS</td>                  <!-- Placeholder Branch -->
+    //         <td>Disruption</td>                        <!-- Placeholder Misbehavior -->
+    //         <td>In Colledge</td>                           <!-- Placeholder Place -->
+    //         <td>Warning</td>                           <!-- Placeholder Punishment -->
+    //         <td>
+    //             <button class="btn btn-info btn-sm">Send to HOD</button>
+    //             <button class="btn btn-danger btn-sm">Delete</button>
+    //         </td>
+    //     `;
+
+    //     // Append the new row to the table body
+    //     document.getElementById('recordsTableBody').appendChild(newRow);
+    // }
+    
+</script>
+
+
+
+<script>
+    // Function to fetch student details from backend and display in the table
+    async function fetchStudentDetailsByRollNo(rollNo) {
+        const apiUrl = `http://localhost:3000/api/student/${rollNo}`; // Backend endpoint
+
+        try {
+            const response = await fetch(apiUrl);
+            if (response.ok) {
+                const student = await response.json();
+                populateTableWithStudentDetails(student); // Display data in the table
+            } else {
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error fetching student details:', error);
+            alert('An error occurred while fetching the student details. Check console for more info.');
+        }
+    }
+
+    // Function to populate table with fetched student details
+    function populateTableWithStudentDetails(student) {
+        const recordsTableBody = document.getElementById('recordsTableBody');
+        // recordsTableBody.innerHTML = ''; // Clear any previous data
+
+        // Create a new table row with student details
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${student.date || '-'}</td>
+            <td>${student.rollNo || '-'}</td>
+            <td>${student.name || '-'}</td>
+            <td>${student.branch || '-'}</td>
+            <td>${student.misbehavior || '-'}</td>
+            <td>${student.place || '-'}</td>
+            <td>${student.punishment || '-'}</td>
+            <td class="text-center action-icons">
+                <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
+                <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
+            </td>
+        `;
+        recordsTableBody.appendChild(row);
+    }
+
+    // Event listener for barcode detection and fetching student details
     document.getElementById('upload-image').addEventListener('click', function () {
         const imageInput = document.getElementById('imageInput');
         if (imageInput.files && imageInput.files[0]) {
             const file = imageInput.files[0];
             const reader = new FileReader();
             reader.onload = function (e) {
-                // Create an image element and load the file into it
                 const img = new Image();
                 img.src = e.target.result;
                 img.onload = function () {
-                    // Once the image is loaded, process it with Quagga
                     processImageForBarcode(img);
                 };
             };
@@ -436,59 +555,40 @@ window.addEventListener("beforeunload", function () {
         }
     });
 
+    // Process image for barcode and fetch details
     function processImageForBarcode(img) {
-        // Create a canvas to draw the image for QuaggaJS
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // Process the image with Quagga to detect barcodes
-        Quagga.decodeSingle({
-            decoder: {
-                readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"]
+        Quagga.decodeSingle(
+            {
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"],
+                },
+                locate: true,
+                src: canvas.toDataURL(),
             },
-            locate: true, // Enables barcode locating
-            src: canvas.toDataURL()
-        }, function (result) {
-            if (result && result.codeResult) {
-                // If a barcode is detected, display the result
-                const barcodeValue = result.codeResult.code;
-                document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
+            function (result) {
+                if (result && result.codeResult) {
+                    const barcodeValue = result.codeResult.code;
+                    document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
 
-                // Add the barcode value to the "Roll Number" column in the table
-                addRecordToTable(barcodeValue);
-            } else {
-                // If no barcode is detected, show a message
-                document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
+                    // Fetch student details by roll number (barcodeValue)
+                    fetchStudentDetailsByRollNo(barcodeValue);
+                } else {
+                    document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
+                }
             }
-        });
-    }
-
-    function addRecordToTable(barcodeValue) {
-        // Create a new row in the table
-        const newRow = document.createElement('tr');
-
-        // Add the columns to the row with placeholders for other data
-        newRow.innerHTML = `
-            <td>${new Date().toLocaleDateString()}</td>  <!-- Current Date -->
-            <td>${barcodeValue}</td>                   <!-- Barcode (Roll Number) -->
-            <td>Yash Kumar</td>                          <!-- Placeholder Name -->
-            <td>CSE-DS</td>                  <!-- Placeholder Branch -->
-            <td>Disruption</td>                        <!-- Placeholder Misbehavior -->
-            <td>In Colledge</td>                           <!-- Placeholder Place -->
-            <td>Warning</td>                           <!-- Placeholder Punishment -->
-            <td>
-                <button class="btn btn-info btn-sm">Send to HOD</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        `;
-
-        // Append the new row to the table body
-        document.getElementById('recordsTableBody').appendChild(newRow);
+        );
     }
 </script>
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
