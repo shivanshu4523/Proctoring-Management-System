@@ -152,53 +152,90 @@ const getAllStudentRecords = async (req, res) => {
     }
 };
 
-// const searchStudents = async (req, res) => {
-//     try {
-//         const client = await MongoClient.connect('mongodb://localhost:27017/');
-//         const coll = client.db('MyProjects').collection('records');
-//         const { name, date, rollNo, department } = req.query;
-
-//         let query = {};
-//         if (name) query.name = new RegExp(name, 'i'); 
-//         if (date) query.date = date;
-//         if (rollNo) query.rollNo = rollNo;
-//         if (department) query.branch = new RegExp(department, 'i'); 
-//         const students = await coll.find(query).toArray();
-
-//         client.close();
-//         res.status(200).json(students);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Failed to fetch students' });
-//     }
-// };
-
-// let dbClient;
-
-async function initializeDbConnection() {
-    if (!dbClient) {
-        dbClient = await MongoClient.connect('mongodb://localhost:27017/');
-    }
-    return dbClient.db('MyProjects').collection('records');
-}
-
 const searchStudents = async (req, res) => {
     try {
-        const coll = await initializeDbConnection();
+        const client = await MongoClient.connect('mongodb://localhost:27017/');
+        const coll = client.db('MyProjects').collection('records');
         const { name, date, rollNo, department } = req.query;
 
         let query = {};
-        if (name) query.name = new RegExp(name, 'i');
+        if (name) query.name = new RegExp(name, 'i'); 
         if (date) query.date = date;
         if (rollNo) query.rollNo = rollNo;
-        if (department) query.branch = new RegExp(department, 'i');
-
+        if (department) query.branch = new RegExp(department, 'i'); 
         const students = await coll.find(query).toArray();
+
+        client.close();
         res.status(200).json(students);
     } catch (error) {
-        console.error('Error fetching students:', error);
         res.status(500).json({ error: 'Failed to fetch students' });
     }
 };
 
+////////////////////////////////////////////////////////
 
-module.exports = { home, signUp, signIn, addStudent, getStudents, getAllStudentRecords, searchStudents, verifyToken };
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////
+
+// let dbClient;
+
+// async function initializeDbConnection() {
+//     if (!dbClient) {
+//         dbClient = await MongoClient.connect('mongodb://localhost:27017/');
+//     }
+//     return dbClient.db('MyProjects').collection('records');
+// }
+
+// const searchStudents = async (req, res) => {
+//     try {
+//         const coll = await initializeDbConnection();
+//         const { name, date, rollNo, department } = req.query;
+
+//         let query = {};
+//         if (name) query.name = new RegExp(name, 'i');
+//         if (date) query.date = date;
+//         if (rollNo) query.rollNo = rollNo;
+//         if (department) query.branch = new RegExp(department, 'i');
+
+//         const students = await coll.find(query).toArray();
+//         res.status(200).json(students);
+//     } catch (error) {
+//         console.error('Error fetching students:', error);
+//         res.status(500).json({ error: 'Failed to fetch students' });
+//     }
+// };
+
+
+
+const getStudentByRollNo = async (req, res) => {
+    try {
+        const { rollno } = req.params;
+
+        // Establish database connection
+        const client = await MongoClient.connect('mongodb://localhost:27017/');
+        const coll = client.db('MyProjects').collection('records');
+
+        // Query for the student
+        const student = await coll.findOne({ rollNo: rollno });  // <-- Change to rollNo
+        client.close();
+
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        res.status(200).json(student);
+    } catch (error) {
+        console.error('Error fetching student by roll number:', error);
+        res.status(500).json({ message: 'Error fetching student', error });
+    }
+};
+
+
+
+module.exports = { home, signUp, signIn, addStudent, getStudents, getAllStudentRecords, searchStudents,getStudentByRollNo, verifyToken };

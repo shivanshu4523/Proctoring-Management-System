@@ -429,26 +429,29 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
+document.addEventListener('DOMContentLoaded', () => {
+    const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
 
-        async function fetchStudentRecords() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('You are not logged in!');
-                return;
-            }
+    async function fetchStudentRecords(query = '') {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('You are not logged in!');
+            return;
+        }
 
-            try {
-                const response = await fetch(apiUrl, {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
+        try {
+            const response = await fetch(`${apiUrl}/search${query}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
 
-                if (response.ok) {
-                    const students = await response.json();
-                    const recordsTableBody = document.getElementById('recordsTableBody');
-                    recordsTableBody.innerHTML = '';
+            if (response.ok) {
+                const students = await response.json();
+                const recordsTableBody = document.getElementById('recordsTableBody');
+                recordsTableBody.innerHTML = ''; // Clear previous results
 
+                if (students.length === 0) {
+                    recordsTableBody.innerHTML = `<tr><td colspan="8" class="text-center">No records found</td></tr>`;
+                } else {
                     students.forEach((student) => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
@@ -460,138 +463,47 @@
                             <td>${student.place || '-'}</td>
                             <td>${student.punishment || '-'}</td>
                             <td class="text-center action-icons">
-                                <button class="btn edit" data-id="${student.id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
-                                <button class="btn delete" data-id="${student.id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
+                                <button class="btn edit" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#editStudentModal"><i class="bi bi-pencil"></i></button>
+                                <button class="btn delete" data-id="${student._id}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
                             </td>
                         `;
                         recordsTableBody.appendChild(row);
                     });
 
                     attachEventListeners();
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to fetch student records: ${errorData.error}`);
                 }
-            } catch (error) {
-                console.error('Error fetching student records:', error);
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to fetch student records: ${errorData.error}`);
             }
+        } catch (error) {
+            console.error('Error fetching student records:', error);
+            // alert('An error occurred while fetching records. Check the console for details.');
         }
+    }
 
-        function attachEventListeners() {
-            document.querySelectorAll('.edit').forEach((button) => {
-                button.addEventListener('click', (e) => {
-                    const id = e.target.closest('button').dataset.id;
-                    fetchStudentById(id);
-                });
-            });
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-            document.querySelectorAll('.delete').forEach((button) => {
-                button.addEventListener('click', (e) => {
-                    const id = e.target.closest('button').dataset.id;
-                    document.getElementById('confirmDelete').dataset.id = id; // Set the ID to the confirmation button
-                });
-            });
-        }
+        const searchName = document.getElementById('searchName').value.trim();
+        const searchDate = document.getElementById('searchDate').value.trim();
+        const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
+        const searchDepartment = document.getElementById('searchDepartment').value.trim();
 
-        async function fetchStudentById(id) {
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch(`${apiUrl}/${id}`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
+        let query = '?';
+        if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
+        if (searchDate) query += `date=${encodeURIComponent(searchDate)}&`;
+        if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
+        if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
 
-                if (response.ok) {
-                    const student = await response.json();
-                    document.getElementById('editName').value = student.name;
-                    document.getElementById('editRollNo').value = student.rollNo;
-                    document.getElementById('editBranch').value = student.branch;
-                    document.getElementById('editMisbehavior').value = student.misbehavior;
-                    document.getElementById('editPlace').value = student.place;
-                    document.getElementById('editPunishment').value = student.punishment;
-                    document.getElementById('editStudentId').value = student.id;
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to fetch student details: ${errorData.error}`);
-                }
-            } catch (error) {
-                console.error('Error fetching student details:', error);
-            }
-        }
+        query = query.endsWith('&') ? query.slice(0, -1) : query;
+        query = query === '?' ? '' : query;
 
-        document.getElementById('editStudentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('editStudentId').value;
-            const name = document.getElementById('editName').value;
-            const rollNo = document.getElementById('editRollNo').value;
-            const branch = document.getElementById('editBranch').value;
-            const misbehavior = document.getElementById('editMisbehavior').value;
-            const place = document.getElementById('editPlace').value;
-            const punishment = document.getElementById('editPunishment').value;
-
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch(`${apiUrl}/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, rollNo, branch, misbehavior, place, punishment }),
-                });
-
-                if (response.ok) {
-                    alert('Student record updated successfully!');
-                    document.querySelector('[data-bs-dismiss="modal"]').click(); // Close the modal
-                    fetchStudentRecords();
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to update student record: ${errorData.error}`);
-                }
-            } catch (error) {
-                console.error('Error updating student record:', error);
-            }
-        });
-
-        document.getElementById('confirmDelete').addEventListener('click', async () => {
-            const id = document.getElementById('confirmDelete').dataset.id;
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch(`${apiUrl}/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-
-                if (response.ok) {
-                    alert('Student record deleted successfully!');
-                    document.querySelector('[data-bs-dismiss="modal"]').click(); // Close the modal
-                    fetchStudentRecords();
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to delete student record: ${errorData.error}`);
-                }
-            } catch (error) {
-                console.error('Error deleting student record:', error);
-            }
-        });
-
-        fetchStudentRecords(); // Load records on page load
-    });
-
-
- // Function to handle logout
- document.getElementById('logout').addEventListener('click', function(event) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-            // Clear token from sessionStorage
-            sessionStorage.removeItem('token');
-            // Redirect to login page
-            window.location.href = 'displine.html';
-        }
+        fetchStudentRecords(query);
     });
 
     fetchStudentRecords();
-
-
+});
 
 </script>
 
