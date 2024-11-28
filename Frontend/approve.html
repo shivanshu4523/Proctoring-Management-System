@@ -699,7 +699,7 @@ textarea:focus {
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 4 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="approve-btn" title="Call Student" >Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
                             <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
@@ -758,7 +758,8 @@ textarea:focus {
                 <p class="student-info">
                     <strong>Name:</strong> Yash Kumar<br>
                     <strong>Roll No:</strong> 2021CSDS149<br>
-                    <strong>Year & Branch:</strong> 4th Year (CSE-DS)
+                    <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
+                    <strong>Email:</strong> yash2021csds149@abesit.edu.in
                 </p>
                 <label for="hod-message">Message from HOD:</label>
                 <br>
@@ -1028,32 +1029,59 @@ textarea:focus {
                 }
             }
 
-            // Event listener for the search button click
-            document.getElementById('searchButton').addEventListener('click', (e) => {
-                e.preventDefault();
+         // Function to handle search
+function handleSearch() {
+    // Get the search parameters
+    const searchName = document.getElementById('searchName').value.trim();
+    const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
+    const searchDepartment = document.getElementById('searchDepartment').value.trim();
 
-                // Get the search parameters
-                const searchName = document.getElementById('searchName').value.trim();
-                const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
-                const searchDepartment = document.getElementById('searchDepartment').value.trim();
+    let query = '?';
+    if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
+    if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
+    if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
 
-                let query = '?';
-                if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
-                if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
-                if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
+    // Remove the trailing '&' if present
+    query = query.endsWith('&') ? query.slice(0, -1) : query;
 
-                // Remove the trailing '&' if present
-                query = query.endsWith('&') ? query.slice(0, -1) : query;
+    // If no query parameters, reset the search (i.e., show all records)
+    query = query === '?' ? '' : query;
 
-                // If no query parameters, reset the search (i.e., show all records)
-                query = query === '?' ? '' : query;
+    // Call the function to fetch data with the query
+    fetchStudentRecords(query);
+}
 
-                // Call the function to fetch data with the query
-                fetchStudentRecords(query);
-            });
+// Event listener for the search button click
+document.getElementById('searchButton').addEventListener('click', (e) => {
+    e.preventDefault();
+    handleSearch(); // Trigger search logic on button click
+});
 
-            // Call fetchStudentRecords initially to load all records
-            fetchStudentRecords();
+// Event listener for 'Enter' key on any of the search input fields
+document.getElementById('searchName').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submission or page reload
+        handleSearch(); // Trigger search logic
+    }
+});
+
+document.getElementById('searchRollNumber').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submission or page reload
+        handleSearch(); // Trigger search logic
+    }
+});
+
+document.getElementById('searchDepartment').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submission or page reload
+        handleSearch(); // Trigger search logic
+    }
+});
+
+// Call fetchStudentRecords initially to load all records
+fetchStudentRecords();
+
         });
 
     </script>
