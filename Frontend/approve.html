@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +63,7 @@
 
         /* Main Content */
         .container {
-            margin-left: 270px; /* Matches sidebar width + padding */
+            margin-left: 270px;
             width: calc(100% - 270px);
             padding: 20px;
         }
@@ -70,12 +71,12 @@
         h1 {
             text-align: center;
             font-weight: 600;
-            color: #2c3e50;
+            color: #ffffff;
         }
 
         .table-container {
             margin-top: 20px;
-            overflow-x: auto; 
+            overflow-x: auto;
         }
 
         table {
@@ -129,6 +130,13 @@
         }
 
         .approve-btn:hover {
+            background-color: #229954;
+        }
+        .approve-btn1 {
+            background-color: #27ae60;
+        }
+
+        .approve-btn1:hover {
             background-color: #229954;
         }
 
@@ -190,17 +198,17 @@
         }
 
         #reset {
-            background-color: #e74c3c;  
-            color: white;               
-            font-size: 14px;            
-            border-radius: 5px;         
-            cursor: pointer;          
-            transition: background-color 0.3s ease;                
-            flex: none;                  
+            background-color: #e74c3c;
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex: none;
         }
 
         #reset:hover {
-            background-color: #c0392b; 
+            background-color: #c0392b;
         }
 
         /* Hide all content sections by default */
@@ -212,8 +220,9 @@
         .content-section.active {
             display: block;
         }
-  /* Cards Layout */
-  .cards-container {
+
+        /* Cards Layout */
+        .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
@@ -236,7 +245,7 @@
         .card img {
             width: 100%;
             height: 250px;
-            object-fit:contain;
+            object-fit: contain;
         }
 
         .card-body {
@@ -280,6 +289,7 @@
         .actions .approve:hover {
             background: #229954;
         }
+        
 
         .actions .delete {
             background: #E74C3C;
@@ -298,23 +308,245 @@
         .actions .notify:hover {
             background: #2980B9;
         }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #2C3E50;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            margin-top: 10px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            /* z-index: -1; */
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            margin-top: 5px;
+            color:#abc9e7;
+        }
+
+        .form-container {
+            background: white;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            padding-right: 60px;
+            border-radius: 10px;
+            box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #2C3E50;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: border 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border: 1px solid #3498db;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .button {
+            width: 58rem;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+            background-color: #2C3E50;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #3498db;
+        }
+
+        .button:disabled {
+            background-color: #BDC3C7;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .error-message {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .form-container .input-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .form-container .input-group input {
+            flex: 1;
+        }
+
+
+
+/* Popup */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with opacity */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup Content */
+.popup-content {
+    background: linear-gradient(135deg, #ffffff, #f2f2f2);
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    animation: popupFadeIn 0.5s ease-out;
+}
+
+/* Popup Animation */
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#h {
+    color: #e74c3c;
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.student-info {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+    outline: none;
+}
+
+button.send-popup-btn {
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+button.send-popup-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+}
+
+/* Additional Style */
+button:active {
+    transform: translateY(2px);
+}
     </style>
 </head>
+
 <body>
     <section class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
             <li id="dashboardLink" class="active">Dashboard</li>
             <li id="approveStudentsLink">Approve Students</li>
-            <li id="">Send to Parents</li>
-            <a href="dashboard.html"><li id="logout" style="color: white; text-decoration: none;">Logout</li></a>
+            <li id="notificationLink">Notification</li>
+            <li id="logout" style="color: white; text-decoration: none; cursor: pointer;">Logout</li>
+
         </ul>
     </section>
 
     <!-- Main Content -->
     <div class="container">
         <section id="dashboard" class="content-section active">
-            <h1>All Student Records</h1>
+            <h1 style="color: #2C3E50;">All Student Records</h1>
             <div class="filter-bar">
                 <input type="text" id="searchName" placeholder="Search by Name">
                 <input type="text" id="searchRollNumber" placeholder="Search by Roll No">
@@ -350,7 +582,7 @@
         </section>
 
         <section id="approveStudents" class="content-section">
-            <h1>Approve Students</h1>
+            <h1 style="color: #2C3E50;">Approve Students</h1>
             <div class="filter-bar">
                 <input type="text" placeholder="Search by Name">
                 <input type="text" placeholder="Search by Roll No">
@@ -372,9 +604,9 @@
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 3 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="approve-btn" title="Call Student" id="approve-student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -388,7 +620,7 @@
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -402,7 +634,7 @@
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -416,7 +648,7 @@
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -430,84 +662,211 @@
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="Notificaiton" class="content-section">
+            <header>
+                <h1>Misbehavior Report Form</h1>
+                <p>Notify parents about student's misbehavior and other important details</p>
+            </header>
+
+            <div class="form-container">
+                <h2>Student Misbehavior Report</h2>
+                <form id="notifyForm">
+                    <!-- Student Name -->
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" name="studentName" required
+                            placeholder="Enter student name">
+                    </div>
+
+                    <!-- Misbehavior Activity -->
+                    <div class="form-group">
+                        <label for="misbehaviorActivity">Misbehavior Activity and Punishment</label>
+                        <textarea id="misbehaviorActivity" name="misbehaviorActivity" required
+                            placeholder="Describe the misbehavior activity"></textarea>
+                    </div>
+
+                    <!-- Times of Misbehavior -->
+                    <div class="form-group">
+                        <label for="misbehaviorTimes">Times of Misbehavior Activity</label>
+                        <select id="misbehaviorTimes" name="misbehaviorTimes" required>
+                            <option value="">Select Times</option>
+                            <option value="1">1 Time</option>
+                            <option value="2">2 Times</option>
+                            <option value="3">3 Times</option>
+                            <option value="4">4 Times</option>
+                            <option value="5">5+ Times</option>
+                        </select>
+                    </div>
+
+
+                    <!-- HOD's Notes -->
+                    <div class="form-group">
+                        <label for="hodNotes">HOD's Note to Parents</label>
+                        <textarea id="hodNotes" name="hodNotes" required
+                            placeholder="Write a note to the parents"></textarea>
+                    </div>
+
+                    <!-- Select Date -->
+                    <div class="flex-box">
+                        <div class="form-group input-group">
+                            <div>
+                                <label for="incidentDate">Date of Incident</label>
+                                <input type="date" id="incidentDate" name="incidentDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="misbehaviorEvidence">Upload Evidence (Video/Photo)</label>
+                            <input type="file" id="misbehaviorEvidence" name="misbehaviorEvidence"
+                                accept="image/*,video/*" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="button" id="notifyButton">Notify Parents</button>
+                </form>
+
+            </div>
+        </section>
+
+
+         <!-- Popup container -->
+         <div class="popup" id="popup">
+            <div class="popup-content">
+                <h2 id="h">Misbehavior Notification</h2>
+                <p class="student-info">
+                    <strong>Name:</strong> John Doe<br>
+                    <strong>Roll No:</strong> 12345<br>
+                    <strong>Phone:</strong> +1 234-567-8901
+                </p>
+                <label for="hod-message">Message from HOD:</label>
+                <textarea id="hod-message" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
+                <button class="send-popup-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
-     document.addEventListener('DOMContentLoaded', () => {
-    // Get all elements
-    const dashboardLink = document.getElementById('dashboardLink');
-    const approveStudentsLink = document.getElementById('approveStudentsLink');
-    const dashboardSection = document.getElementById('dashboard');
-    const approveStudentsSection = document.getElementById('approveStudents');
-    const notifyBtns = document.querySelectorAll('.notify-btn');
-    
-    // Handle the navigation functionality
-    dashboardLink.addEventListener('click', () => {
-        dashboardSection.classList.add('active');
-        approveStudentsSection.classList.remove('active');
-        dashboardLink.classList.add('active');
-        approveStudentsLink.classList.remove('active');
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all elements
+            const dashboardLink = document.getElementById('dashboardLink');
+            const approveStudentsLink = document.getElementById('approveStudentsLink');
+            const notificationLink = document.getElementById('notificationLink');
 
-    approveStudentsLink.addEventListener('click', () => {
-        dashboardSection.classList.remove('active');
-        approveStudentsSection.classList.add('active');
-        dashboardLink.classList.remove('active');
-        approveStudentsLink.classList.add('active');
-    });
+            const dashboardSection = document.getElementById('dashboard');
+            const approveStudentsSection = document.getElementById('approveStudents');
+            const notificationSection = document.getElementById('Notificaiton');
 
-    // Add click event for notify button to navigate to "Approve Students"
-    notifyBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            // Use scrollIntoView() to scroll to the approveStudents section
-            approveStudentsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const notifyBtns = document.querySelectorAll('.notify-btn');
 
-            // Optionally, you can add the active class to the "Approve Students" section if needed
-            dashboardSection.classList.remove('active');
-            approveStudentsSection.classList.add('active');
-            dashboardLink.classList.remove('active');
-            approveStudentsLink.classList.add('active');
+            // Handle the navigation functionality
+            dashboardLink.addEventListener('click', () => {
+                dashboardSection.classList.add('active');
+                approveStudentsSection.classList.remove('active');
+                notificationSection.classList.remove('active');
+                dashboardLink.classList.add('active');
+                approveStudentsLink.classList.remove('active');
+                notificationLink.classList.remove('active');
+            });
+
+            approveStudentsLink.addEventListener('click', () => {
+                dashboardSection.classList.remove('active');
+                approveStudentsSection.classList.add('active');
+                notificationSection.classList.remove('active');
+                dashboardLink.classList.remove('active');
+                approveStudentsLink.classList.add('active');
+                notificationLink.classList.remove('active');
+            });
+
+            notificationLink.addEventListener('click', () => {
+                dashboardSection.classList.remove('active');
+                approveStudentsSection.classList.remove('active');
+                notificationSection.classList.add('active');
+                dashboardLink.classList.remove('active');
+                approveStudentsLink.classList.remove('active');
+                notificationLink.classList.add('active');
+            });
+
+            notifyBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    notificationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    dashboardSection.classList.remove('active');
+                    approveStudentsSection.classList.remove('active');
+                    notificationSection.classList.add('active');
+                    dashboardLink.classList.remove('active');
+                    approveStudentsLink.classList.remove('active');
+                    notificationLink.classList.add('active');
+                });
+            });
+            
         });
+
+   
+        document.addEventListener('DOMContentLoaded', () => {
+    const logoutButton = document.getElementById('logout');
+
+    logoutButton.addEventListener('click', (event) => {
+        const userConfirmed = confirm("Are you sure you want to logout?");
+
+        if (userConfirmed) {
+            window.location.href = "dashboard.html"; 
+        }
     });
 });
+
+document.getElementById('notifyButton').addEventListener('click', function() {
+    alert('Parents have been notified! 📢👨💬');
+});
+
+  // Function to show the popup
+  document.getElementById('approve-student').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'block';
+        });
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
 
     </script>
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
-    
-        // Function to fetch student records
-        async function fetchStudentRecords(query = '') {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('You are not logged in!');
-                return;
-            }
-    
-            try {
-                const response = await fetch(`${apiUrl}/search${query}`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-    
-                if (response.ok) {
-                    const students = await response.json();
-                    const recordsTableBody = document.getElementById('recordsTableBody');
-                    recordsTableBody.innerHTML = ''; // Clear previous results
-    
-                    if (students.length === 0) {
-                        recordsTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No records found</td></tr>`;
-                    } else {
-                        students.forEach((student) => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
+
+            // Function to fetch student records
+            async function fetchStudentRecords(query = '') {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('You are not logged in!');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${apiUrl}/search${query}`, {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                    });
+
+                    if (response.ok) {
+                        const students = await response.json();
+                        const recordsTableBody = document.getElementById('recordsTableBody');
+                        recordsTableBody.innerHTML = ''; // Clear previous results
+
+                        if (students.length === 0) {
+                            recordsTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No records found</td></tr>`;
+                        } else {
+                            students.forEach((student) => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
                                 <td>${student.date || '-'}</td>
                                 <td>${student.rollNo || '-'}</td>
                                 <td>${student.name || '-'}</td>
@@ -516,83 +875,113 @@
                                 <td>${student.place || '-'}</td>
                                 <td>${student.punishment || '-'}</td>
                                 <td class="actions">
-                                    <button class="approve-btn" title="Check Details">Approve</button>
+                                    <button class="approve-btn1" title="Check Details">Approve</button>
                                     <button class="delete-btn" data-rollno="${student.rollNo}">Delete</button>
-                                    <button class="notify-btn" title="Call that Student">Notify</button>
+                            <button class="notify-btn" id="notify-btn" title="Call the Student">Notify</button>
                                 </td>
                             `;
-                            recordsTableBody.appendChild(row);
-                        });
-                        
-                        // Add delete event listener to delete buttons
-                        document.querySelectorAll('.delete-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const rollNo = e.target.getAttribute('data-rollno');
-                                if (confirm(`Are you sure you want to delete student with Roll No: ${rollNo}?`)) {
-                                    try {
-                                        const response = await fetch(`${apiUrl}/${rollNo}`, {
-                                            method: 'DELETE',
-                                            headers: {
-                                                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                                                'Content-Type': 'application/json',
-                                            },
-                                        });
-    
-                                        if (response.ok) {
-                                            alert('Student deleted successfully!');
-                                            fetchStudentRecords(); // Reload the student records
-                                        } else {
-                                            const error = await response.json();
-                                            alert(error.message || 'Failed to delete student');
-                                        }
-                                    } catch (error) {
-                                        console.error('Error deleting student:', error);
-                                        alert('An error occurred while deleting the student');
-                                    }
-                                }
+                                recordsTableBody.appendChild(row);
                             });
-                        });
-                    }
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to fetch student records: ${errorData.error}`);
-                }
-            } catch (error) {
-                console.error('Error fetching student records:', error);
-            }
-        }
+                           // Get all "Notify" buttons
+    const notifyButtons = document.querySelectorAll('.notify-btn');
     
-        // Event listener for the search button click
-        document.getElementById('searchButton').addEventListener('click', (e) => {
-            e.preventDefault();
-    
-            // Get the search parameters
-            const searchName = document.getElementById('searchName').value.trim();
-            const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
-            const searchDepartment = document.getElementById('searchDepartment').value.trim();
-    
-            let query = '?';
-            if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
-            if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
-            if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
-    
-            // Remove the trailing '&' if present
-            query = query.endsWith('&') ? query.slice(0, -1) : query;
-    
-            // If no query parameters, reset the search (i.e., show all records)
-            query = query === '?' ? '' : query;
-    
-            // Call the function to fetch data with the query
-            fetchStudentRecords(query);
+    // Add event listeners to each "Notify" button
+    notifyButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Show an alert when the button is clicked
+            alert("You are being redirected to notify the student's parent.");
+
+            // Scroll to the #Notificaiton section after the alert
+            document.getElementById('Notificaiton').scrollIntoView({
+                behavior: 'smooth' 
+            });
         });
-    
-        // Call fetchStudentRecords initially to load all records
-        fetchStudentRecords();
     });
+
+    const approveButtons = document.querySelectorAll('.approve-btn1');
     
-        </script>
+    // Add event listeners to each "Approve" button
+    approveButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Show an alert when the button is clicked
+            alert("You are being redirected to approve the student's details.");
+
+            // Scroll to the #approveStudents section after the alert
+            document.getElementById('approveStudents').scrollIntoView({
+                behavior: 'smooth'  // Smooth scrolling effect
+            });
+        });
+    });
+
+                            document.querySelectorAll('.delete-btn').forEach(button => {
+                                button.addEventListener('click', async (e) => {
+                                    const rollNo = e.target.getAttribute('data-rollno');
+                                    if (confirm(`Are you sure you want to delete student with Roll No: ${rollNo}?`)) {
+                                        try {
+                                            const response = await fetch(`${apiUrl}/${rollNo}`, {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                                    'Content-Type': 'application/json',
+                                                },
+                                            });
+
+                                            if (response.ok) {
+                                                alert('Student deleted successfully!');
+                                                fetchStudentRecords(); 
+                                            } else {
+                                                const error = await response.json();
+                                                alert(error.message || 'Failed to delete student');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error deleting student:', error);
+                                            alert('An error occurred while deleting the student');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        alert(`Failed to fetch student records: ${errorData.error}`);
+                    }
+                } catch (error) {
+                    console.error('Error fetching student records:', error);
+                }
+            }
+
+            // Event listener for the search button click
+            document.getElementById('searchButton').addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Get the search parameters
+                const searchName = document.getElementById('searchName').value.trim();
+                const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
+                const searchDepartment = document.getElementById('searchDepartment').value.trim();
+
+                let query = '?';
+                if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
+                if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
+                if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
+
+                // Remove the trailing '&' if present
+                query = query.endsWith('&') ? query.slice(0, -1) : query;
+
+                // If no query parameters, reset the search (i.e., show all records)
+                query = query === '?' ? '' : query;
+
+                // Call the function to fetch data with the query
+                fetchStudentRecords(query);
+            });
+
+            // Call fetchStudentRecords initially to load all records
+            fetchStudentRecords();
+        });
+
+    </script>
 
 
 
 </body>
+
 </html>
