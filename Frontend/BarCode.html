@@ -58,7 +58,7 @@
 
         .hero-section {
             text-align: center;
-            padding: 60px 20px;
+            padding: 30px 10px;
             background: linear-gradient(to right, #4c8eff, #6a11cb);
             color: #fff;
             border-radius: 0 0 50px 50px;
@@ -178,6 +178,31 @@
             text-align: center;
             vertical-align: middle;
         }
+
+        
+        /* Student Details Section */
+        .student-detail {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            display: none;
+        }
+
+        .student-photo {
+            width: 220px;
+            height: 240px;
+            border-radius: 10%;
+            margin-bottom: 1rem;
+            display: flex;
+            position: absolute;
+        }
+
+        .student-details h3 {
+            margin: 0.5rem 0;
+            color: #4caf50;
+        }
     </style>
 </head>
 
@@ -226,7 +251,7 @@
         <div class="section">
             <h4>Scan Barcode with Camera</h4>
             <!-- <video id="video" autoplay></video> -->
-            <div id="video-container" style="position: relative; width: 640px; height: 480px;">
+            <div id="video-container" style="position: relative; width: 520px; height: 380px;">
 
                 <video id="video" autoplay style="width: 100%; height: 100%; background-color: black;"></video>
                 <img id="video-thumbnail" src="./img/scan5.jpeg" alt="Thumbnail" style="
@@ -254,6 +279,27 @@
             <button class="btn btn-secondary" id="upload-image">Extract Barcode</button>
             <div id="image-barcode-result" class="mt-3"></div>
         </div>
+
+        <section id="shiva" class="student-detail">
+            <img src="./img/13397.jpg" alt="Student Photo" class="student-photo">
+            <h3 id="student-name">Shivanshu Srivastava</h3>
+            <p id="admission-no">Admission No: 2021CSDS048</p>
+            <p id="phone-no">Phone No: 9876543210</p>
+            <p id="email">Email: shivanshu123@gmail.com</p>
+            <p id="course">Course: B.Tech CSE-DS 4th year</p>
+            <button id="btn">View Records</button>
+        </section>
+        
+        <section id="dhama" class="student-details" style="display: none;">
+            <img src="./img/Saurabh .jpg" alt="Student Photo" class="student-photo">
+            <h3 id="student-name">Surabh Dhama</h3>
+            <p id="admission-no">Admission No: 2021CSDS131</p>
+            <p id="phone-no">Phone No: 9876543211</p>
+            <p id="email">Email: dhama123@gmail.com</p>
+            <p id="course">Course: B.Tech CSE-DS 4th year</p>
+            <button id="btn">View Records</button>
+        </section>
+
 
         <div class="row mb-4">
             <div class="col-md-12">
@@ -287,6 +333,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- Footer -->
     <footer>
