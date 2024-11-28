@@ -167,7 +167,7 @@
                     <li class="nav-item d-flex align-items-center">
                         <div class="user-profile">
                             <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
-                            <span id="username" class="user-name">Proctor</span> <!-- Added id for dynamic username -->
+                            <span id="username" class="user-name">Proctor</span> 
                         </div>
                     </li>
                 </ul>
@@ -175,10 +175,8 @@
         </div>
     </nav>
 
-    <!-- Dashboard Content -->
     <div class="container dashboard">
         <div class="row">
-            <!-- Sidebar (optional, can be extended) -->
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">Student Details</a>
@@ -193,7 +191,7 @@
             <div class="col-md-9" id="notificationForm">
                 <div class="form-section">
                     <h3 class="form-heading">Notify HOD - Enter Student Details</h3>
-                    <form id="notificationForm"> <!-- Added form id -->
+                    <form id="notificationForm"> 
                         <div class="mb-3">
                             <label for="studentName" class="form-label">Student Name</label>
                             <input type="text" class="form-control" id="studentName" placeholder="Enter Student Name"
@@ -227,7 +225,6 @@
                         </div>
 
                         <br>
-                        <!-- Button to send notification -->
                         <button type="submit" class="btn btn-send">Send Notification to HOD</button>
                         <button type="submit" class="btn btn-send">Send to Parents</button>
                         <br>
@@ -235,13 +232,11 @@
                 </div>
             </div>
 
-            <!-- <br><br><br> -->
-            <!-- Footer -->
+
             <footer>
                 <p>&copy; 2024 Discipline360 - Student Behavior Management System</p>
             </footer>
 
-            <!-- EmailJS and Script -->
             <script type="text/javascript"
                 src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
             <script type="text/javascript">
@@ -258,20 +253,17 @@
                         notificationForm.addEventListener("submit", function (event) {
                             event.preventDefault();
 
-                            // Gather data from the form fields (misbehavior incident details)
                             const studentName = document.getElementById("studentName").value;
                             const rollNo = document.getElementById("rollNo").value;
                             const placeOfMisbehavior = document.getElementById("placeOfMisbehavior").value;
                             const misbehaviorDetails = document.getElementById("misbehaviorDetails").value;
                             const incidentDate = document.getElementById("incidentDate").value;
 
-                            // Get the current system time
                             const currentTime = new Date();
-                            const formattedTime = currentTime.toLocaleTimeString(); // Formats as 'hh:mm:ss AM/PM'
+                            const formattedTime = currentTime.toLocaleTimeString();
 
                             console.log({ studentName, rollNo, placeOfMisbehavior, misbehaviorDetails, incidentDate, formattedTime });
 
-                            // Sending email notification to HOD
                             emailjs
                                 .send("service_7gt04xb", "template_1rfn2av", {
                                     student_name: studentName,
@@ -279,24 +271,21 @@
                                     place_of_misbehavior: placeOfMisbehavior,
                                     misbehavior_details: misbehaviorDetails,
                                     incident_date: incidentDate,
-                                    incident_time: formattedTime, // Pass the current time to the template
-                                    to_email: "shivanshusrivastava440@gmail.com", // Dynamically set HOD's email here
-                                    subject: `Misbehavior Alert for Student: ${studentName}`, // Email subject
+                                    incident_time: formattedTime, 
+                                    to_email: "shivanshusrivastava440@gmail.com", 
+                                    subject: `Misbehavior Alert for Student: ${studentName}`, 
                                 })
                                 .then(function (response) {
-                                    if (response.status === 200) { // Only alert on successful response
+                                    if (response.status === 200) { 
                                         console.log("Notification SUCCESS!", response.status, response.text);
                                         alert("Notification sent successfully to the HOD! ✅");
-                                        // Reset the form after success
                                         notificationForm.reset();
                                     } else {
-                                        throw new Error("Notification was not successful!❌"); // Manually throw error to be caught in catch
+                                        throw new Error("Notification was not successful!❌"); 
                                     }
                                 })
                                 .catch(function (error) {
                                     console.error("Notification FAILED...", error);
-                                    // alert("Failed to send notification!");
-                                    // Reset the form after failure
                                     notificationForm.reset();
                                 });
                                 notificationForm.reset();
@@ -306,13 +295,10 @@
                     }
                 });
 
-                // Function to handle logout
                 document.getElementById('logout').addEventListener('click', function (event) {
                     event.preventDefault();
                     if (confirm('Are you sure you want to logout?')) {
-                        // Clear token from sessionStorage
                         sessionStorage.removeItem('token');
-                        // Redirect to login page
                         window.location.href = 'displine.html';
                     }
                 });
@@ -321,12 +307,10 @@
 
 
 <script>
-    // Access the barcode value stored in localStorage
     const barcode = localStorage.getItem("barcode");
 
     if (barcode) {
-        console.log("Student barcode: " + barcode); // Do something with the barcode
-        // You can display the barcode, send a request, or anything else as needed
+        console.log("Student barcode: " + barcode); 
     } else {
         console.log("No barcode found");
     }
@@ -334,12 +318,9 @@
 
  
     window.onload = function () {
-        // Access the barcode value stored in localStorage
         const barcode = localStorage.getItem("barcode");
 
-        // If barcode exists, automatically populate the Roll Number field
         if (barcode) {
-            // Set the value of the Roll Number field
             document.getElementById('rollNo').value = barcode;
         } else {
             console.log("No barcode found");
@@ -354,18 +335,15 @@
 
 <script>
  window.onload = function () {
-        // Retrieve student details from localStorage
         const studentName = localStorage.getItem("studentName");
         const barcode = localStorage.getItem("barcode");
         const studentBranch = localStorage.getItem("studentBranch");
 
-        // Auto-fill the form fields if data exists in localStorage
         if (studentName && barcode && studentBranch) {
             document.getElementById('studentName').value = studentName;
             document.getElementById('rollNo').value = barcode;
             document.getElementById('placeOfMisbehavior').value = studentBranch;
 
-            // Clear localStorage after auto-filling to prevent re-populating on next visit
             localStorage.removeItem("studentName");
             localStorage.removeItem("barcode");
             localStorage.removeItem("studentBranch");

@@ -8,7 +8,6 @@
     <link rel="icon" href="./img/tree1.png" id="logooo" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="script.js"></script>
 
@@ -26,7 +25,6 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            /* background: linear-gradient(to bottom, #ff9a9e, #fad0c4); */
             background: linear-gradient(135deg, #1a73e8, #6c63ff);
 
             color: #333;
@@ -102,10 +100,8 @@ color: white;
         .navbar .btn:hover {
             background: #ff4e42;
             transform: scale(1.1);
-            /* color: white; */
         }
 
-        /* Hero Section */
         .hero {
             display: flex;
             align-items: center;
@@ -114,7 +110,6 @@ color: white;
             padding-left: 20px;
             height: 115vh;
             text-align: left;
-            /* background: linear-gradient(to bottom, #ff6f61, #ffc3a0); */
             background: linear-gradient(135deg, #1a73e8, #6c63ff);
             position: relative;
             overflow: hidden;
@@ -180,7 +175,6 @@ color: white;
         .hero-animation img {
             max-width: 90%;
             border-radius: 20px;
-            /* box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); */
             box-shadow: 0 0 4rem #bcdfe5;
 
             animation: float 4s ease-in-out infinite;
@@ -197,7 +191,6 @@ color: white;
             }
         }
 
-        /* Footer */
         .footer {
             background: #2c3e50;
             color: #fff;
@@ -215,7 +208,6 @@ color: white;
         }
 
 
-/* Particle Styles */
 .particle {
     position: absolute;
     width: 8px;
@@ -225,7 +217,6 @@ color: white;
     animation: particleSplash 0.8s ease-out forwards;
 }
 
-/* Splash Animation */
 @keyframes particleSplash {
     0% {
         opacity: 1;
@@ -306,7 +297,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-        // Scrolling Navbar Effect
         const navbar = document.getElementById("navbar");
         window.addEventListener("scroll", () => {
             if (window.scrollY > 50) {
@@ -317,12 +307,11 @@ window.addEventListener("DOMContentLoaded", () => {
         });
 
 
-// particle effect
 
 
 
 document.addEventListener('click', (e) => {
-    const numberOfParticles = 25; // Number of particles for splash effect
+    const numberOfParticles = 25; 
     for (let i = 0; i < numberOfParticles; i++) {
         createSplashParticle(e.pageX, e.pageY);
     }
@@ -333,28 +322,22 @@ function createSplashParticle(x, y) {
     particle.classList.add('particle');
     document.body.appendChild(particle);
 
-    // Set initial particle position
     particle.style.left = `${x}px`;
     particle.style.top = `${y}px`;
 
-    // Assign random color from a palette
     particle.style.backgroundColor = getRandomColor();
 
-    // Set random splash direction and distance
-    const angle = Math.random() * 2 * Math.PI; // Random direction in radians
-    const distance = Math.random() * 50 + 30; // Distance between 30 and 80px
+    const angle = Math.random() * 2 * Math.PI; 
+    const distance = Math.random() * 50 + 30; 
 
-    // CSS custom properties to control movement in x and y directions
     particle.style.setProperty('--x-move', `${Math.cos(angle) * distance}px`);
     particle.style.setProperty('--y-move', `${Math.sin(angle) * distance}px`);
 
-    // Remove particle after animation ends
     particle.addEventListener('animationend', () => {
         particle.remove();
     });
 }
 
-// Helper function to get a random color
 function getRandomColor() {
     const colors = ['#FF5F6D', '#FFC371', '#36D1DC', '#5B86E5', '#FDBB2D', '#FF2E63', '#9D50BB', '#662D8C'];
     return colors[Math.floor(Math.random() * colors.length)];

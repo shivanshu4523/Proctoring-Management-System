@@ -251,18 +251,14 @@
 
     
 
-   // Function to get token from sessionStorage
    function getToken() {
             return sessionStorage.getItem('token');
         }
 
-        // Function to handle logout
         document.getElementById('logout').addEventListener('click', function(event) {
             event.preventDefault();
             if (confirm('Are you sure you want to logout?')) {
-                // Clear token from sessionStorage
                 sessionStorage.removeItem('token');
-                // Redirect to login page
                 window.location.href = 'displine.html';
             }
         });
