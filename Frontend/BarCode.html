@@ -414,84 +414,6 @@
     </script>
 
     <script>
-        // document.getElementById('upload-image').addEventListener('click', function () {
-        //     const imageInput = document.getElementById('imageInput');
-        //     if (imageInput.files && imageInput.files[0]) {
-        //         const file = imageInput.files[0];
-        //         const reader = new FileReader();
-        //         reader.onload = function (e) {
-        //             // Create an image element and load the file into it
-        //             const img = new Image();
-        //             img.src = e.target.result;
-        //             img.onload = function () {
-        //                 // Once the image is loaded, process it with Quagga
-        //                 processImageForBarcode(img);
-        //             };
-        //         };
-        //         reader.readAsDataURL(file);
-        //     } else {
-        //         alert("Please upload an image file.");
-        //     }
-        // });
-
-        // function processImageForBarcode(img) {
-        //     // Create a canvas to draw the image for QuaggaJS
-        //     const canvas = document.createElement('canvas');
-        //     const ctx = canvas.getContext('2d');
-        //     canvas.width = img.width;
-        //     canvas.height = img.height;
-        //     ctx.drawImage(img, 0, 0, img.width, img.height);
-
-        //     // Process the image with Quagga to detect barcodes
-        //     Quagga.decodeSingle({
-        //         decoder: {
-        //             readers: ["code_128_reader", "ean_reader", "upc_reader", "ean_8_reader"]
-        //         },
-        //         locate: true, // Enables barcode locating
-        //         src: canvas.toDataURL()
-        //     }, function (result) {
-        //         if (result && result.codeResult) {
-        //             // If a barcode is detected, display the result
-        //             const barcodeValue = result.codeResult.code;
-        //             document.getElementById('image-barcode-result').innerText = 'Barcode Detected: ' + barcodeValue;
-
-        //             // Add the barcode value to the "Roll Number" column in the table
-        //             addRecordToTable(barcodeValue);
-        //         } else {
-        //             // If no barcode is detected, show a message
-        //             document.getElementById('image-barcode-result').innerText = 'No barcode detected.';
-        //         }
-        //     });
-        // }
-
-        // function addRecordToTable(barcodeValue) {
-        //     // Create a new row in the table
-        //     const newRow = document.createElement('tr');
-
-        //     // Add the columns to the row with placeholders for other data
-        //     newRow.innerHTML = `
-        //         <td>${new Date().toLocaleDateString()}</td>  <!-- Current Date -->
-        //         <td>${barcodeValue}</td>                   <!-- Barcode (Roll Number) -->
-        //         <td>Yash Kumar</td>                          <!-- Placeholder Name -->
-        //         <td>CSE-DS</td>                  <!-- Placeholder Branch -->
-        //         <td>Disruption</td>                        <!-- Placeholder Misbehavior -->
-        //         <td>In Colledge</td>                           <!-- Placeholder Place -->
-        //         <td>Warning</td>                           <!-- Placeholder Punishment -->
-        //         <td>
-        //             <button class="btn btn-info btn-sm">Send to HOD</button>
-        //             <button class="btn btn-danger btn-sm">Delete</button>
-        //         </td>
-        //     `;
-
-        //     // Append the new row to the table body
-        //     document.getElementById('recordsTableBody').appendChild(newRow);
-        // }
-
-    </script>
-
-
-
-    <script>
         async function fetchStudentDetailsByRollNo(rollNo) {
             const apiUrl = `http://localhost:3000/api/student/${rollNo}`; 
 
@@ -584,30 +506,6 @@
             );
         }
 
-// document.getElementById('copy-barcode').addEventListener('click', function () {
-//     const barcodeResult = document.getElementById('image-barcode-result').innerText;
-
-//     // Extract only the barcode value (text after "Barcode Detected: ")
-//     const barcodeValue = barcodeResult.replace('Barcode Detected: ', '').trim();
-
-//     if (barcodeValue && barcodeValue !== 'Waiting for barcode...' && barcodeValue !== 'No barcode detected.') {
-//         // Copy the barcode value to the clipboard
-//         navigator.clipboard.writeText(barcodeValue).then(() => {
-//             alert('Barcode copied');
-
-//             // Store the barcode value in localStorage
-//             localStorage.setItem("barcode", barcodeValue);
-
-//             // Redirect to notification.html page
-//             window.location.href = "notification.html";
-//         }).catch((error) => {
-//             console.error('Failed to copy text: ', error);
-//             alert('Failed to copy the barcode value.');
-//         });
-//     } else {
-//         alert('No valid barcode value to copy.');
-//     }
-// });
 
 const studentData = [
     { rollNo: "2021CSDS048", name: "Shivanshu", branch: "CSE-DS" },
