@@ -508,11 +508,10 @@
 
 
 const studentData = [
-    { rollNo: "2021CSDS048", name: "Shivanshu", branch: "CSE-DS" },
-    { rollNo: "2021CSDS149", name: "Yash Kumar", branch: "CSE-DS" },
-    { rollNo: "2021CSDS131", name: "Saurabh Dhama", branch: "CSE-DS" },
+    { rollNo: "2021CSDS048", name: "Shivanshu Srivastava", branch: "CSE-DS", photo: "./img/shiva1.jpg" },
+    { rollNo: "2021CSDS149", name: "Yash Kumar", branch: "CSE-DS", photo: "./img/yash.png" },
+    { rollNo: "2021CSDS131", name: "Saurabh Dhama", branch: "CSE-DS", photo: "./img/Saurabh .jpg" },
 ];
-
 document.getElementById('copy-barcode').addEventListener('click', function () {
     const barcodeResult = document.getElementById('image-barcode-result').innerText;
 
@@ -529,10 +528,12 @@ document.getElementById('copy-barcode').addEventListener('click', function () {
         localStorage.removeItem("studentName");
         localStorage.removeItem("barcode");
         localStorage.removeItem("studentBranch");
+        localStorage.removeItem("studentPhoto");
 
         localStorage.setItem("studentName", student.name);
         localStorage.setItem("barcode", barcodeValue);
         localStorage.setItem("studentBranch", student.branch);
+        localStorage.setItem("studentPhoto", student.photo);  // Store photo path
 
         navigator.clipboard.writeText(barcodeValue).then(() => {
             alert('Barcode copied! Redirecting...');
@@ -548,14 +549,6 @@ document.getElementById('copy-barcode').addEventListener('click', function () {
     }
 });
 
-
-        function redirectToEvidence(link) {
-            if (link) {
-                window.open(link, '_blank'); 
-            } else {
-                alert('No valid evidence link available.');
-            }
-        }
 
     </script>
 

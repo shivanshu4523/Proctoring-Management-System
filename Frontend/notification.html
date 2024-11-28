@@ -14,22 +14,6 @@
             background-color: rgb(191, 223, 252);
         }
 
-        /* .navbar {
-            background-color: #007bff;
-        }
-
-        .navbar-brand {
-            color: white !important;
-        }
-
-        .nav-link {
-            color: white !important;
-        }
-
-        .nav-link:hover {
-            color: #f0f0f0 !important;
-        } */
-
         .dashboard {
             margin-top: 20px;
         }
@@ -115,36 +99,44 @@
         .action-icons .btn.delete i {
             color: #dc3545;
         }
-        #dashboard:hover{
-background-color: #b3d8ff;
+
+        #dashboard:hover {
+            background-color: #b3d8ff;
+        }
+
+
+
+        .student-photo-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .student-photo-container img {
+            object-fit: fill;
+            width: 299px;
+            /* height: 100px; */
+            position: relative;
+            /* left: 2.8px; */
+            bottom: 4px;
+        }
+        #photo{
+            color: rgb(13, 0, 255);
+            font-size: large;
+        }
+        .mb{
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: 600;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard.html">Discipline360</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.html">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Notifications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="logout" href="#">Log Out</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -170,7 +162,7 @@ background-color: #b3d8ff;
                     <li class="nav-item d-flex align-items-center">
                         <div class="user-profile">
                             <img src="./img/ft7y.png" alt="User Photo" class="user-photo">
-                            <span id="username" class="user-name">Proctor</span> 
+                            <span id="username" class="user-name">Proctor</span>
                         </div>
                     </li>
                 </ul>
@@ -178,23 +170,35 @@ background-color: #b3d8ff;
         </div>
     </nav>
 
-    <div class="container dashboard" >
+    <div class="container dashboard">
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group" id="dashboard">
                     <a href="#" class="list-group-item list-group-item-action active" id="dashboard">Student Details</a>
-                    <a href="BarCode.html" class="list-group-item list-group-item-action" id="dashboard">Scan ID Card</a>
-                    <a href="record.html" class="list-group-item list-group-item-action" id="dashboard">Search Records</a>
+                    <a href="BarCode.html" class="list-group-item list-group-item-action" id="dashboard">Scan ID
+                        Card</a>
+                    <a href="record.html" class="list-group-item list-group-item-action" id="dashboard">Search
+                        Records</a>
                     <a href="#" class="list-group-item list-group-item-action" id="dashboard">Settings</a>
                 </div>
+
+                <!-- Student Photo Section -->
+                <div class="mb">
+                    <label for="studentPhoto" class="form-label" id="photo">Student Photo</label>
+                    <div id="studentPhotoContainer" class="student-photo-container">
+                        <img id="studentPhoto" alt="Student Photo" class="img-fluid">
+                    </div>
+                </div>
             </div>
+
+
 
             <!-- Main Content Area -->
 
             <div class="col-md-9" id="notificationForm">
                 <div class="form-section">
                     <h3 class="form-heading">Notify HOD - Enter Student Details</h3>
-                    <form id="notificationForm"> 
+                    <form id="notificationForm">
                         <div class="mb-3">
                             <label for="studentName" class="form-label">Student Name</label>
                             <input type="text" class="form-control" id="studentName" placeholder="Enter Student Name"
@@ -203,7 +207,8 @@ background-color: #b3d8ff;
 
                         <div class="mb-3">
                             <label for="studentRollNo" class="form-label">Roll Number</label>
-                            <input type="text" class="form-control" id="rollNo" placeholder="Enter Roll Number" maxlength="11">
+                            <input type="text" class="form-control" id="rollNo" placeholder="Enter Roll Number"
+                                maxlength="11">
                         </div>
                         <div class="mb-3">
                             <label for="placeOfMisbehavior" class="form-label">Branch</label>
@@ -274,24 +279,24 @@ background-color: #b3d8ff;
                                     place_of_misbehavior: placeOfMisbehavior,
                                     misbehavior_details: misbehaviorDetails,
                                     incident_date: incidentDate,
-                                    incident_time: formattedTime, 
-                                    to_email: "shivanshusrivastava440@gmail.com", 
-                                    subject: `Misbehavior Alert for Student: ${studentName}`, 
+                                    incident_time: formattedTime,
+                                    to_email: "shivanshusrivastava440@gmail.com",
+                                    subject: `Misbehavior Alert for Student: ${studentName}`,
                                 })
                                 .then(function (response) {
-                                    if (response.status === 200) { 
+                                    if (response.status === 200) {
                                         console.log("Notification SUCCESS!", response.status, response.text);
                                         alert("Notification sent successfully to the HOD! ✅");
                                         notificationForm.reset();
                                     } else {
-                                        throw new Error("Notification was not successful!❌"); 
+                                        throw new Error("Notification was not successful!❌");
                                     }
                                 })
                                 .catch(function (error) {
                                     console.error("Notification FAILED...", error);
                                     notificationForm.reset();
                                 });
-                                notificationForm.reset();
+                            notificationForm.reset();
                         });
                     } else {
                         console.error("Form not found in the DOM!");
@@ -309,52 +314,61 @@ background-color: #b3d8ff;
             </script>
 
 
+            <script>
+                const barcode = localStorage.getItem("barcode");
+
+                if (barcode) {
+                    console.log("Student barcode: " + barcode);
+                } else {
+                    console.log("No barcode found");
+                }
+
+
+
+                window.onload = function () {
+                    const barcode = localStorage.getItem("barcode");
+
+                    if (barcode) {
+                        document.getElementById('rollNo').value = barcode;
+                    } else {
+                        console.log("No barcode found");
+                    }
+                }
+
+
+
+
+
+            </script>
+
 <script>
-    const barcode = localStorage.getItem("barcode");
-
-    if (barcode) {
-        console.log("Student barcode: " + barcode); 
-    } else {
-        console.log("No barcode found");
-    }
-
-
- 
     window.onload = function () {
-        const barcode = localStorage.getItem("barcode");
-
-        if (barcode) {
-            document.getElementById('rollNo').value = barcode;
-        } else {
-            console.log("No barcode found");
-        }
-    }
-
-
-
-
-
-</script>
-
-<script>
- window.onload = function () {
         const studentName = localStorage.getItem("studentName");
         const barcode = localStorage.getItem("barcode");
         const studentBranch = localStorage.getItem("studentBranch");
+        const studentPhoto = localStorage.getItem("studentPhoto"); // Retrieve student photo from localStorage
 
-        if (studentName && barcode && studentBranch) {
+        if (studentName && barcode && studentBranch && studentPhoto) {
+            // Populate student details in the form
             document.getElementById('studentName').value = studentName;
             document.getElementById('rollNo').value = barcode;
             document.getElementById('placeOfMisbehavior').value = studentBranch;
 
+            // Set the student photo
+            const studentPhotoElement = document.getElementById('studentPhoto');
+            studentPhotoElement.src = studentPhoto; // Dynamically set the src of the image
+
+            // Clear localStorage after using the data
             localStorage.removeItem("studentName");
             localStorage.removeItem("barcode");
             localStorage.removeItem("studentBranch");
+            localStorage.removeItem("studentPhoto");
         } else {
             console.log("No student details found in localStorage.");
         }
     }
 </script>
+
 
 
 
