@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: #2C3E50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            background: #34495E;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar ul li:hover {
+            background: #1ABC9C;
+        }
+
+        .sidebar ul li.active {
+            background: #1ABC9C;
+        }
+
+        .sidebar ul a {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Main Content */
+        .container {
+            margin-left: 270px; /* Matches sidebar width + padding */
+            width: calc(100% - 270px);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto; /* To ensure table responsiveness */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        table thead {
+            background: #2c3e50;
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            font-weight: 600;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background: #e1f5fe;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .actions button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .approve-btn {
+            background-color: #27ae60;
+        }
+
+        .approve-btn:hover {
+            background-color: #229954;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .notify-btn {
+            background-color: #3498db;
+        }
+
+        .notify-btn:hover {
+            background-color: #2980b9;
+        }
+        /* Styling for Filter Bar */
+        .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.filter-bar input,
+.filter-bar select,
+.filter-bar button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-bar select {
+    cursor: pointer;
+}
+
+.filter-bar button {
+    background: #1ABC9C;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-bar button:hover {
+    background: #16a085;
+}
+
+#reset {
+    background-color: #e74c3c;  
+    color: white;               
+    border: none;              
+     /* padding: -6px 50px;         */
+    font-size: 14px;            
+    border-radius: 5px;         
+    cursor: pointer;          
+    transition: background-color 0.3s ease;                
+    flex: none;                 
+}
+
+#reset:hover {
+    background-color: #c0392b; 
+}
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>All Students</li>
+            <li>Manage Notifications</li>
+            <li>Settings</li>
+            <a href="dashboard.html"><li>Logout</li></a>
+        </ul>
+    </div>
+    
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>All Student Records</h1>
+         <div class="filter-bar">
+            <input type="text" id="searchName" placeholder="Search by Name">
+            <input type="text" id="searchRollNumber" placeholder="Search by Roll No">
+            <select id="searchDepartment" title="branch">
+                <option value="">Select Branch</option>
+                <option value="CSE-DS">CSE-DS</option>
+                <option value="IT">IT</option>
+                <option value="CSE-AI">CSE-AI</option>
+                <option value="CSE">CSE</option>
+            </select>
+            <button id="searchButton" type="submit">Search</button>
+           
+                <a href="" style="color: white; text-decoration: none;"> <button id="reset" type="reset"> Reset </button></a>
+          
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>Misbehavior</th>
+                        <th>Place</th>
+                        <th>Punishment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsTableBody">
+                    <!-- Dynamic content will go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
+
+    // Function to fetch student records
+    async function fetchStudentRecords(query = '') {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('You are not logged in!');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiUrl}/search${query}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
+
+            if (response.ok) {
+                const students = await response.json();
+                const recordsTableBody = document.getElementById('recordsTableBody');
+                recordsTableBody.innerHTML = ''; // Clear previous results
+
+                if (students.length === 0) {
+                    recordsTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No records found</td></tr>`;
+                } else {
+                    students.forEach((student) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${student.date || '-'}</td>
+                            <td>${student.rollNo || '-'}</td>
+                            <td>${student.name || '-'}</td>
+                            <td>${student.branch || '-'}</td>
+                            <td>${student.misbehavior || '-'}</td>
+                            <td>${student.place || '-'}</td>
+                            <td>${student.punishment || '-'}</td>
+                            <td class="actions">
+                                <button class="approve-btn">Approve</button>
+                                <button class="delete-btn" data-rollno="${student.rollNo}">Delete</button>
+                                <button class="notify-btn">Notify</button>
+                            </td>
+                        `;
+                        recordsTableBody.appendChild(row);
+                    });
+
+                    // Add delete event listener to delete buttons
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', async (e) => {
+                            const rollNo = e.target.getAttribute('data-rollno');
+                            if (confirm(`Are you sure you want to delete student with Roll No: ${rollNo}?`)) {
+                                try {
+                                    const response = await fetch(`${apiUrl}/${rollNo}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                            'Content-Type': 'application/json',
+                                        },
+                                    });
+
+                                    if (response.ok) {
+                                        alert('Student deleted successfully!');
+                                        fetchStudentRecords(); // Reload the student records
+                                    } else {
+                                        const error = await response.json();
+                                        alert(error.message || 'Failed to delete student');
+                                    }
+                                } catch (error) {
+                                    console.error('Error deleting student:', error);
+                                    alert('An error occurred while deleting the student');
+                                }
+                            }
+                        });
+                    });
+                }
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to fetch student records: ${errorData.error}`);
+            }
+        } catch (error) {
+            console.error('Error fetching student records:', error);
+        }
+    }
+
+    // Event listener for the search button click
+    document.getElementById('searchButton').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Get the search parameters
+        const searchName = document.getElementById('searchName').value.trim();
+        const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
+        const searchDepartment = document.getElementById('searchDepartment').value.trim();
+
+        let query = '?';
+        if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
+        if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
+        if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
+
+        // Remove the trailing '&' if present
+        query = query.endsWith('&') ? query.slice(0, -1) : query;
+
+        // If no query parameters, reset the search (i.e., show all records)
+        query = query === '?' ? '' : query;
+
+        // Call the function to fetch data with the query
+        fetchStudentRecords(query);
+    });
+
+    // Call fetchStudentRecords initially to load all records
+    fetchStudentRecords();
+});
+
+    </script>
+</body>
+</html>

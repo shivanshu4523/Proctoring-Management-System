@@ -239,6 +239,30 @@ client.close()
     }
 };
 
+const deleteStudent = async (req, res) => {
+    try {
+        const { rollNo } = req.params;  // Get the rollNo from URL parameters
+
+        // Establish database connection
+        const client = await MongoClient.connect('mongodb://localhost:27017/');
+        const coll = client.db('MyProjects').collection('records');
+
+        // Perform the deletion based on rollNo
+        const result = await coll.deleteOne({ rollNo });
+
+        client.close();
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        res.status(200).json({ message: 'Student record deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting student record:', error);
+        res.status(500).json({ error: 'Failed to delete student' });
+    }
+};
 
 
-module.exports = { home, signUp, signIn, addStudent, getStudents, getAllStudentRecords, searchStudents,getStudentByRollNo, verifyToken };
+
+module.exports = { home, signUp, signIn, addStudent, getStudents, getAllStudentRecords, searchStudents,getStudentByRollNo, deleteStudent, verifyToken };

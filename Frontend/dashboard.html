@@ -46,6 +46,13 @@
             font-size: 16px;
             font-weight: 500;
         }
+        #block{
+            width: 580px;
+            margin-left: 80px;
+        }
+        #block1{
+            width: 580px;
+        }
     </style>
 </head>
 <body>
@@ -147,7 +154,7 @@
                 </div>
             </div>
        
-            <div class="col-lg-3 mb-4">
+            <div class="col-lg-3 mb-4" id="block">
                 <div class="card h-100 shadow">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">Detect Student Face</h5>
@@ -156,8 +163,19 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="col-lg-3 mb-4" id="block1">
+                <div class="card h-100 shadow">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="card-title">Approve By HOD</h5>
+                        <p class="card-text">All the student details are approved by HOD and Admin.</p>
+                        <a href="approve.html" class="btn btn-primary">Approve Students</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
 
     <script>
         function getToken() {

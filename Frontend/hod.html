@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Students</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #c3c3c3;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: #2C3E50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            background: #34495E;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar ul li:hover {
+            background: #1ABC9C;
+        }
+
+        .sidebar ul li.active {
+            background: #1ABC9C;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .filter-bar button {
+            padding: 10px 20px;
+            border: none;
+            background: #1ABC9C;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-bar button:hover {
+            background: #16A085;
+        }
+
+        /* Cards Layout */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2C3E50;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            color: #7F8C8D;
+            margin-bottom: 8px;
+        }
+
+        .card-body .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions button {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .actions .approve {
+            background: #27AE60;
+            color: white;
+        }
+
+        .actions .approve:hover {
+            background: #229954;
+        }
+
+        .actions .delete {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .actions .delete:hover {
+            background: #C0392B;
+        }
+
+        .actions .notify {
+            background: #3498DB;
+            color: white;
+        }
+
+        .actions .notify:hover {
+            background: #2980B9;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>All Students</li>
+            <li>Manage Notifications</li>
+            <li>Settings</li>
+            <a href="dashboard.html"><li style="text-decoration: none; color: white; " >Logout</li></a>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Approve Students</h1>
+            <div class="filter-bar">
+                <input type="text" placeholder="Search by Name">
+                <input type="text" placeholder="Search by Roll No">
+                <select title="branch">
+                    <option value="">Select Branch</option>
+                    <option value="cse">CSE</option>
+                    <option value="it">IT</option>
+                    <option value="ece">ECE</option>
+                </select>
+                <button>Search</button>
+            </div>
+        </div>
+        <div class="cards-container">
+            <div class="card">
+                <img src="./img/shiavsnhu.png" alt="Student Photo">
+                <div class="card-body">
+                    <h3>Shivanshu Srivastava</h3>
+                    <p>Roll No: 2021CSDS048</p>
+                    <p>Branch: CSE-DS</p>
+                    <p>Submission Date: 2024-11-25</p>
+                    <div class="actions">
+                        <button class="approve"><i class="fas fa-check"></i> Approve</button>
+                        <button class="delete"><i class="fas fa-trash"></i> Delete</button>
+                        <button class="notify"><i class="fas fa-bell"></i> Notify</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./img/Saurabh .jpg" alt="Student Photo">
+                <div class="card-body">
+                    <h3>Dhama Kumar</h3>
+                    <p>Roll No: 2021CSDS049</p>
+                    <p>Branch: IT</p>
+                    <p>Submission Date: 2024-11-24</p>
+                    <div class="actions">
+                        <button class="approve"><i class="fas fa-check"></i> Approve</button>
+                        <button class="delete"><i class="fas fa-trash"></i> Delete</button>
+                        <button class="notify"><i class="fas fa-bell"></i> Notify</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
