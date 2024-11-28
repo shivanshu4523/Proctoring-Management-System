@@ -685,7 +685,7 @@ textarea:focus {
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 3 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student" id="approve-student">Approve</button>
+                            <button class="approve-btn" title="Call Student" id="approve-yash">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
                             <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
@@ -699,7 +699,7 @@ textarea:focus {
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 4 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student" >Approve</button>
+                            <button class="approve-btn" title="Call Student" id="approve-saurabh">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
                             <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
@@ -713,7 +713,7 @@ textarea:focus {
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 2 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="approve-btn" title="Call Student" id="approve-shivanshu">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
                             <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
                         </div>
@@ -749,24 +749,60 @@ textarea:focus {
                 </div>
             </div>
 
-              <!-- Popup container -->
-         <div class="popup" id="popup">
-            <div class="popup-content">
-                <span class="close-btn" onclick="hidePopup()">×</span> <!-- Close button -->
+           <!-- Popup container for Yash -->
+<div class="popup" id="popup-yash">
+    <div class="popup-content">
+        <span class="close-btn" onclick="hidePopup('yash')">×</span> <!-- Close button -->
+        <h2>Misbehaving Student</h2>
+        <p class="student-info">
+            <strong>Name:</strong> Yash Kumar<br>
+            <strong>Roll No:</strong> 2021CSDS149<br>
+            <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
+            <strong>Email:</strong> yash2021csds149@abesit.edu.in
+        </p>
+        <label for="hod-message">Message from HOD:</label>
+        <br>
+        <textarea id="hod-message-yash" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
+        <button class="send-popup-btn" onclick="sendMessage('yash')">Send Message</button>
+    </div>
+</div>
 
-                <h2 id="h">Misbehaving Student</h2>
-                <p class="student-info">
-                    <strong>Name:</strong> Yash Kumar<br>
-                    <strong>Roll No:</strong> 2021CSDS149<br>
-                    <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
-                    <strong>Email:</strong> yash2021csds149@abesit.edu.in
-                </p>
-                <label for="hod-message">Message from HOD:</label>
-                <br>
-                <textarea id="hod-message" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
-                <button class="send-popup-btn" onclick="sendMessage()">Send Message</button>
-            </div>
-        </div>
+<!-- Popup container for Shivanshu -->
+<div class="popup" id="popup-shivanshu">
+    <div class="popup-content">
+        <span class="close-btn" onclick="hidePopup('shivanshu')">×</span> <!-- Close button -->
+        <h2>Misbehaving Student</h2>
+        <p class="student-info">
+            <strong>Name:</strong> Shivanshu<br>
+            <strong>Roll No:</strong> 2021CSDS048<br>
+            <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
+            <strong>Email:</strong> shivanshu2021csds048@abesit.edu.in
+        </p>
+        <label for="hod-message">Message from HOD:</label>
+        <br>
+        <textarea id="hod-message-shivanshu" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
+        <button class="send-popup-btn" onclick="sendMessage('shivanshu')">Send Message</button>
+    </div>
+</div>
+
+<!-- Popup container for Saurabh -->
+<div class="popup" id="popup-saurabh">
+    <div class="popup-content">
+        <span class="close-btn" onclick="hidePopup('saurabh')">×</span> <!-- Close button -->
+        <h2>Misbehaving Student</h2>
+        <p class="student-info">
+            <strong>Name:</strong> Saurabh Dhama<br>
+            <strong>Roll No:</strong> 2021CSDS141<br>
+            <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
+            <strong>Email:</strong> saurabh2021csds141@abesit.edu.in
+        </p>
+        <label for="hod-message">Message from HOD:</label>
+        <br>
+        <textarea id="hod-message-saurabh" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
+        <button class="send-popup-btn" onclick="sendMessage('saurabh')">Send Message</button>
+    </div>
+</div>
+
             
         </section>
        
@@ -1088,58 +1124,64 @@ fetchStudentRecords();
 
     
 <script>
-// Function to show the popup
-function showPopup() {
-    var popup = document.getElementById("popup");
+    // Function to show the popup
+function showPopup(student) {
+    var popup = document.getElementById("popup-" + student);
     popup.style.display = "block"; // Show the popup
 }
 
 // Function to hide the popup
-function hidePopup() {
-    var popup = document.getElementById("popup");
+function hidePopup(student) {
+    var popup = document.getElementById("popup-" + student);
     popup.style.display = "none"; // Hide the popup
-    document.getElementById("hod-message").value = ""; // Clear message field
+    document.getElementById("hod-message-" + student).value = ""; // Clear message field
 }
 
 // Function to send message (for now, it will log the message in console)
-function sendMessage() {
-    var message = document.getElementById("hod-message").value;
+function sendMessage(student) {
+    var message = document.getElementById("hod-message-" + student).value;
     if (message) {
-        console.log("Message Sent: ", message);
-        alert("Message Sent Successfully!");
-        hidePopup(); // Hide the popup after sending the message
+        console.log("Message Sent to " + student + ": ", message);
+        alert("Message Sent Successfully to " + student + "!");
+        hidePopup(student); // Hide the popup after sending the message
     } else {
         alert("Please enter a message.");
     }
 }
 
 // Function to handle the 'Enter' key press to send the message
-function handleEnterKey(event) {
+function handleEnterKey(event, student) {
     if (event.key === "Enter" && !event.shiftKey) { // Only trigger on 'Enter' key, not 'Shift + Enter'
         event.preventDefault(); // Prevent the default 'Enter' behavior (new line)
-        sendMessage(); // Send the message
+        sendMessage(student); // Send the message
     }
 }
 
-// Event listener for the 'Approve' button
-document.getElementById("approve-student").addEventListener("click", function() {
-    showPopup(); // Show the popup when 'Approve' button is clicked
+// Event listeners for the 'Approve' buttons
+document.getElementById("approve-yash").addEventListener("click", function() {
+    showPopup("yash"); // Show the Yash popup
 });
 
-// Event listener for the 'Reject' button
-document.querySelector(".delete-btn").addEventListener("click", function() {
-    alert("Student Rejected!");
-    hidePopup(); // Optionally, hide the popup after rejection
+document.getElementById("approve-shivanshu").addEventListener("click", function() {
+    showPopup("shivanshu"); // Show the Shivanshu popup
 });
 
-// Event listener for the 'Notify' button
-document.getElementById("notify-btn").addEventListener("click", function() {
-    alert("Notification Sent to Parents!");
-    hidePopup(); // Optionally, hide the popup after sending notification
+document.getElementById("approve-saurabh").addEventListener("click", function() {
+    showPopup("saurabh"); // Show the Saurabh popup
 });
 
-// Event listener for 'Enter' key to send the message
-document.getElementById("hod-message").addEventListener("keydown", handleEnterKey);
+// Event listener for 'Enter' key to send the message for each student
+document.getElementById("hod-message-yash").addEventListener("keydown", function(event) {
+    handleEnterKey(event, "yash");
+});
+
+document.getElementById("hod-message-shivanshu").addEventListener("keydown", function(event) {
+    handleEnterKey(event, "shivanshu");
+});
+
+document.getElementById("hod-message-saurabh").addEventListener("keydown", function(event) {
+    handleEnterKey(event, "saurabh");
+});
 
 </script>
 
