@@ -685,9 +685,9 @@ textarea:focus {
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 3 Times</p>
                         <div class="actions">
-                            <button class="approve-btn" title="Call Student" id="approve-yash">Approve</button>
+                            <button class="approve-btn" title="Call Student" id="approve-yash" name="Yash Kumar">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="Yash Kumar" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -695,13 +695,13 @@ textarea:focus {
                     <img src="./img/Saurabh .jpg" alt="Student Photo">
                     <div class="card-body">
                         <h3>Saurabh Dhama</h3>
-                        <p>Roll No: 2021CSDS141</p>
+                        <p>Roll No: 2021CSDS131</p>
                         <p>Year & Branch: 4th Year ( CSE-DS )</p>
                         <p>Misbehavior Record: 4 Times</p>
                         <div class="actions">
                             <button class="approve-btn" title="Call Student" id="approve-saurabh">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="Saurabh Dhama" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -715,7 +715,7 @@ textarea:focus {
                         <div class="actions">
                             <button class="approve-btn" title="Call Student" id="approve-shivanshu">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="Shivanshu Srivastava" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -729,7 +729,7 @@ textarea:focus {
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="Kartik Yadav" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -743,7 +743,7 @@ textarea:focus {
                         <div class="actions">
                             <button class="approve-btn" title="Call Student">Approve</button>
                             <button class="delete-btn" title="Delete it">Reject</button>
-                            <button class="notify-btn" id="notify-btn" title="Send to Parents">Notify</button>
+                            <button class="notify-btn" id="Vikas Kumar" title="Send to Parents">Notify</button>
                         </div>
                     </div>
                 </div>
@@ -792,7 +792,7 @@ textarea:focus {
         <h2>Misbehaving Student</h2>
         <p class="student-info">
             <strong>Name:</strong> Saurabh Dhama<br>
-            <strong>Roll No:</strong> 2021CSDS141<br>
+            <strong>Roll No:</strong> 2021CSDS131<br>
             <strong>Year & Branch:</strong> 4th Year (CSE-DS)<br>
             <strong>Email:</strong> saurabh2021csds141@abesit.edu.in
         </p>
@@ -1182,6 +1182,15 @@ document.getElementById("hod-message-shivanshu").addEventListener("keydown", fun
 document.getElementById("hod-message-saurabh").addEventListener("keydown", function(event) {
     handleEnterKey(event, "saurabh");
 });
+
+// Generic event listener for any notify button
+document.querySelectorAll('.notify-btn').forEach(function(button) {
+    button.addEventListener("click", function() {
+        var studentName = this.id; // Get the ID value of the clicked button
+        document.getElementById("studentName").value = studentName; // Set the value in the studentName input field
+    });
+});
+
 
 </script>
 
