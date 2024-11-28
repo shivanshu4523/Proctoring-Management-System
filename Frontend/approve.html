@@ -11,6 +11,8 @@
             margin: 0;
             padding: 0;
             display: flex;
+            background-color: rgb(218, 218, 218);
+            z-index: -1;
         }
 
         /* Sidebar Navigation */
@@ -73,7 +75,7 @@
 
         .table-container {
             margin-top: 20px;
-            overflow-x: auto; /* To ensure table responsiveness */
+            overflow-x: auto; 
         }
 
         table {
@@ -100,7 +102,7 @@
         }
 
         table tbody tr:nth-child(even) {
-            background: #f9f9f9;
+            background: rgb(242, 242, 242);
         }
 
         table tbody tr:hover {
@@ -145,280 +147,452 @@
         .notify-btn:hover {
             background-color: #2980b9;
         }
+
         /* Styling for Filter Bar */
         .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: #f7f7f7;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    align-items: center;
-}
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            align-items: center;
+        }
 
-.filter-bar input,
-.filter-bar select,
-.filter-bar button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    flex: 1;
-    min-width: 150px;
-}
+        .filter-bar input,
+        .filter-bar select,
+        .filter-bar button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            flex: 1;
+            min-width: 150px;
+        }
 
-.filter-bar select {
-    cursor: pointer;
-}
+        .filter-bar select {
+            cursor: pointer;
+        }
 
-.filter-bar button {
-    background: #1ABC9C;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .filter-bar button {
+            background: #1ABC9C;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.filter-bar button:hover {
-    background: #16a085;
-}
+        .filter-bar button:hover {
+            background: #16a085;
+        }
 
-#reset {
-    background-color: #e74c3c;  
-    color: white;               
-    border: none;              
-     /* padding: -6px 50px;         */
-    font-size: 14px;            
-    border-radius: 5px;         
-    cursor: pointer;          
-    transition: background-color 0.3s ease;                
-    flex: none;                 
-}
+        #reset {
+            background-color: #e74c3c;  
+            color: white;               
+            font-size: 14px;            
+            border-radius: 5px;         
+            cursor: pointer;          
+            transition: background-color 0.3s ease;                
+            flex: none;                  
+        }
 
-#reset:hover {
-    background-color: #c0392b; 
-}
+        #reset:hover {
+            background-color: #c0392b; 
+        }
 
+        /* Hide all content sections by default */
+        .content-section {
+            display: none;
+        }
+
+        /* Show the active content section */
+        .content-section.active {
+            display: block;
+        }
+  /* Cards Layout */
+  .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit:contain;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2C3E50;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            color: #7F8C8D;
+            margin-bottom: 8px;
+        }
+
+        .card-body .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions button {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .actions .approve {
+            background: #27AE60;
+            color: white;
+        }
+
+        .actions .approve:hover {
+            background: #229954;
+        }
+
+        .actions .delete {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .actions .delete:hover {
+            background: #C0392B;
+        }
+
+        .actions .notify {
+            background: #3498DB;
+            color: white;
+        }
+
+        .actions .notify:hover {
+            background: #2980B9;
+        }
     </style>
 </head>
 <body>
-   <section class="students">
-    <!-- Sidebar -->
-    <div class="sidebar">
+    <section class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li class="active">Dashboard</li>
-            <li>All Students</li>
-            <li>Manage Notifications</li>
-            <li>Settings</li>
-            <a href="dashboard.html"><li>Logout</li></a>
+            <li id="dashboardLink" class="active">Dashboard</li>
+            <li id="approveStudentsLink">Approve Students</li>
+            <li id="">Send to Parents</li>
+            <a href="dashboard.html"><li id="logout" style="color: white; text-decoration: none;">Logout</li></a>
         </ul>
-    </div>
-    
+    </section>
 
     <!-- Main Content -->
     <div class="container">
-        <h1>All Student Records</h1>
-         <div class="filter-bar">
-            <input type="text" id="searchName" placeholder="Search by Name">
-            <input type="text" id="searchRollNumber" placeholder="Search by Roll No">
-            <select id="searchDepartment" title="branch">
-                <option value="">Select Branch</option>
-                <option value="CSE-DS">CSE-DS</option>
-                <option value="IT">IT</option>
-                <option value="CSE-AI">CSE-AI</option>
-                <option value="CSE">CSE</option>
-            </select>
-            <button id="searchButton" type="submit">Search</button>
-           
-                <a href="" style="color: white; text-decoration: none;"> <button id="reset" type="reset"> Reset </button></a>
-          
-        </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Roll No</th>
-                        <th>Name</th>
-                        <th>Branch</th>
-                        <th>Misbehavior</th>
-                        <th>Place</th>
-                        <th>Punishment</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="recordsTableBody">
-                    <!-- Dynamic content will go here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+        <section id="dashboard" class="content-section active">
+            <h1>All Student Records</h1>
+            <div class="filter-bar">
+                <input type="text" id="searchName" placeholder="Search by Name">
+                <input type="text" id="searchRollNumber" placeholder="Search by Roll No">
+                <select id="searchDepartment" title="search">
+                    <option value="">Select Branch</option>
+                    <option value="CSE-DS">CSE-DS</option>
+                    <option value="IT">IT</option>
+                    <option value="CSE-AI">CSE-AI</option>
+                    <option value="CSE">CSE</option>
+                </select>
+                <button id="searchButton">Search</button>
+                <a href=""><button id="reset" type="reset">Reset</button></a>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Misbehavior</th>
+                            <th>Place</th>
+                            <th>Punishment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsTableBody">
+                        <!-- Dynamic content will go here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-
-<section class="card">
-  
-    <div class="main-content">
-        <div class="header">
+        <section id="approveStudents" class="content-section">
             <h1>Approve Students</h1>
             <div class="filter-bar">
                 <input type="text" placeholder="Search by Name">
                 <input type="text" placeholder="Search by Roll No">
-                <select title="branch">
+                <select>
                     <option value="">Select Branch</option>
-                    <option value="cse">CSE</option>
-                    <option value="it">IT</option>
-                    <option value="ece">ECE</option>
+                    <option value="CSE-DS">CSE-DS</option>
+                    <option value="IT">IT</option>
+                    <option value="CSE-AI">CSE-AI</option>
+                    <option value="CSE">CSE</option>
                 </select>
                 <button>Search</button>
             </div>
-        </div>
-        <div class="cards-container">
-            <div class="card">
-                <img src="./img/shiavsnhu.png" alt="Student Photo">
-                <div class="card-body">
-                    <h3>Shivanshu Srivastava</h3>
-                    <p>Roll No: 2021CSDS048</p>
-                    <p>Branch: CSE-DS</p>
-                    <p>Submission Date: 2024-11-25</p>
-                    <div class="actions">
-                        <button class="approve"><i class="fas fa-check"></i> Approve</button>
-                        <button class="delete"><i class="fas fa-trash"></i> Delete</button>
-                        <button class="notify"><i class="fas fa-bell"></i> Notify</button>
+            <div class="cards-container">
+                <div class="card">
+                    <img src="./img/yash.png" alt="Student Photo">
+                    <div class="card-body">
+                        <h3>Yash Kumar</h3>
+                        <p>Roll No: 2021CSDS149</p>
+                        <p>Year & Branch: 4th Year ( CSE-DS )</p>
+                        <p>Misbehavior Record: 3 Times</p>
+                        <div class="actions">
+                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="delete-btn" title="Delete it">Reject</button>
+                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./img/Saurabh .jpg" alt="Student Photo">
+                    <div class="card-body">
+                        <h3>Saurabh Dhama</h3>
+                        <p>Roll No: 2021CSDS141</p>
+                        <p>Year & Branch: 4th Year ( CSE-DS )</p>
+                        <p>Misbehavior Record: 4 Times</p>
+                        <div class="actions">
+                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="delete-btn" title="Delete it">Reject</button>
+                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./img/shivanshu1.jpg" alt="Student Photo">
+                    <div class="card-body">
+                        <h3>Shivanshu Srivastava</h3>
+                        <p>Roll No: 2021CSDS048</p>
+                        <p>Year & Branch: 4th Year ( CSE-DS )</p>
+                        <p>Misbehavior Record: 2 Times</p>
+                        <div class="actions">
+                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="delete-btn" title="Delete it">Reject</button>
+                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./img/dhama.png" alt="Student Photo">
+                    <div class="card-body">
+                        <h3>Kartik Yadav</h3>
+                        <p>Roll No: 2021CSDS075</p>
+                        <p>Year & Branch: 3th Year ( IT )</p>
+                        <p>Misbehavior Record: 2 Time</p>
+                        <div class="actions">
+                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="delete-btn" title="Delete it">Reject</button>
+                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./img/dhama.png" alt="Student Photo">
+                    <div class="card-body">
+                        <h3>Vikas Kumar</h3>
+                        <p>Roll No: 2021CSDS123</p>
+                        <p>Year & Branch: 2th Year ( CSE-AI )</p>
+                        <p>Misbehavior Record: 4 Times</p>
+                        <div class="actions">
+                            <button class="approve-btn" title="Call Student">Approve</button>
+                            <button class="delete-btn" title="Delete it">Reject</button>
+                            <button class="notify-btn" title="Send to Parents">Notify</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <img src="./img/Saurabh .jpg" alt="Student Photo">
-                <div class="card-body">
-                    <h3>Dhama Kumar</h3>
-                    <p>Roll No: 2021CSDS049</p>
-                    <p>Branch: IT</p>
-                    <p>Submission Date: 2024-11-24</p>
-                    <div class="actions">
-                        <button class="approve"><i class="fas fa-check"></i> Approve</button>
-                        <button class="delete"><i class="fas fa-trash"></i> Delete</button>
-                        <button class="notify"><i class="fas fa-bell"></i> Notify</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
-</section>
+
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
-
-    // Function to fetch student records
-    async function fetchStudentRecords(query = '') {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('You are not logged in!');
-            return;
-        }
-
-        try {
-            const response = await fetch(`${apiUrl}/search${query}`, {
-                headers: { 'Authorization': `Bearer ${token}` },
-            });
-
-            if (response.ok) {
-                const students = await response.json();
-                const recordsTableBody = document.getElementById('recordsTableBody');
-                recordsTableBody.innerHTML = ''; // Clear previous results
-
-                if (students.length === 0) {
-                    recordsTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No records found</td></tr>`;
-                } else {
-                    students.forEach((student) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${student.date || '-'}</td>
-                            <td>${student.rollNo || '-'}</td>
-                            <td>${student.name || '-'}</td>
-                            <td>${student.branch || '-'}</td>
-                            <td>${student.misbehavior || '-'}</td>
-                            <td>${student.place || '-'}</td>
-                            <td>${student.punishment || '-'}</td>
-                            <td class="actions">
-                                <button class="approve-btn">Approve</button>
-                                <button class="delete-btn" data-rollno="${student.rollNo}">Delete</button>
-                                <button class="notify-btn">Notify</button>
-                            </td>
-                        `;
-                        recordsTableBody.appendChild(row);
-                    });
-
-                    // Add delete event listener to delete buttons
-                    document.querySelectorAll('.delete-btn').forEach(button => {
-                        button.addEventListener('click', async (e) => {
-                            const rollNo = e.target.getAttribute('data-rollno');
-                            if (confirm(`Are you sure you want to delete student with Roll No: ${rollNo}?`)) {
-                                try {
-                                    const response = await fetch(`${apiUrl}/${rollNo}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                                            'Content-Type': 'application/json',
-                                        },
-                                    });
-
-                                    if (response.ok) {
-                                        alert('Student deleted successfully!');
-                                        fetchStudentRecords(); // Reload the student records
-                                    } else {
-                                        const error = await response.json();
-                                        alert(error.message || 'Failed to delete student');
-                                    }
-                                } catch (error) {
-                                    console.error('Error deleting student:', error);
-                                    alert('An error occurred while deleting the student');
-                                }
-                            }
-                        });
-                    });
-                }
-            } else {
-                const errorData = await response.json();
-                alert(`Failed to fetch student records: ${errorData.error}`);
-            }
-        } catch (error) {
-            console.error('Error fetching student records:', error);
-        }
-    }
-
-    // Event listener for the search button click
-    document.getElementById('searchButton').addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // Get the search parameters
-        const searchName = document.getElementById('searchName').value.trim();
-        const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
-        const searchDepartment = document.getElementById('searchDepartment').value.trim();
-
-        let query = '?';
-        if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
-        if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
-        if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
-
-        // Remove the trailing '&' if present
-        query = query.endsWith('&') ? query.slice(0, -1) : query;
-
-        // If no query parameters, reset the search (i.e., show all records)
-        query = query === '?' ? '' : query;
-
-        // Call the function to fetch data with the query
-        fetchStudentRecords(query);
+     document.addEventListener('DOMContentLoaded', () => {
+    // Get all elements
+    const dashboardLink = document.getElementById('dashboardLink');
+    const approveStudentsLink = document.getElementById('approveStudentsLink');
+    const dashboardSection = document.getElementById('dashboard');
+    const approveStudentsSection = document.getElementById('approveStudents');
+    const notifyBtns = document.querySelectorAll('.notify-btn');
+    
+    // Handle the navigation functionality
+    dashboardLink.addEventListener('click', () => {
+        dashboardSection.classList.add('active');
+        approveStudentsSection.classList.remove('active');
+        dashboardLink.classList.add('active');
+        approveStudentsLink.classList.remove('active');
     });
 
-    // Call fetchStudentRecords initially to load all records
-    fetchStudentRecords();
+    approveStudentsLink.addEventListener('click', () => {
+        dashboardSection.classList.remove('active');
+        approveStudentsSection.classList.add('active');
+        dashboardLink.classList.remove('active');
+        approveStudentsLink.classList.add('active');
+    });
+
+    // Add click event for notify button to navigate to "Approve Students"
+    notifyBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            // Use scrollIntoView() to scroll to the approveStudents section
+            approveStudentsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Optionally, you can add the active class to the "Approve Students" section if needed
+            dashboardSection.classList.remove('active');
+            approveStudentsSection.classList.add('active');
+            dashboardLink.classList.remove('active');
+            approveStudentsLink.classList.add('active');
+        });
+    });
 });
 
     </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const apiUrl = 'http://localhost:3000/api/students'; // Update with your backend API URL
+    
+        // Function to fetch student records
+        async function fetchStudentRecords(query = '') {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('You are not logged in!');
+                return;
+            }
+    
+            try {
+                const response = await fetch(`${apiUrl}/search${query}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+    
+                if (response.ok) {
+                    const students = await response.json();
+                    const recordsTableBody = document.getElementById('recordsTableBody');
+                    recordsTableBody.innerHTML = ''; // Clear previous results
+    
+                    if (students.length === 0) {
+                        recordsTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No records found</td></tr>`;
+                    } else {
+                        students.forEach((student) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${student.date || '-'}</td>
+                                <td>${student.rollNo || '-'}</td>
+                                <td>${student.name || '-'}</td>
+                                <td>${student.branch || '-'}</td>
+                                <td>${student.misbehavior || '-'}</td>
+                                <td>${student.place || '-'}</td>
+                                <td>${student.punishment || '-'}</td>
+                                <td class="actions">
+                                    <button class="approve-btn" title="Check Details">Approve</button>
+                                    <button class="delete-btn" data-rollno="${student.rollNo}">Delete</button>
+                                    <button class="notify-btn" title="Call that Student">Notify</button>
+                                </td>
+                            `;
+                            recordsTableBody.appendChild(row);
+                        });
+                        
+                        // Add delete event listener to delete buttons
+                        document.querySelectorAll('.delete-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const rollNo = e.target.getAttribute('data-rollno');
+                                if (confirm(`Are you sure you want to delete student with Roll No: ${rollNo}?`)) {
+                                    try {
+                                        const response = await fetch(`${apiUrl}/${rollNo}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                                'Content-Type': 'application/json',
+                                            },
+                                        });
+    
+                                        if (response.ok) {
+                                            alert('Student deleted successfully!');
+                                            fetchStudentRecords(); // Reload the student records
+                                        } else {
+                                            const error = await response.json();
+                                            alert(error.message || 'Failed to delete student');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error deleting student:', error);
+                                        alert('An error occurred while deleting the student');
+                                    }
+                                }
+                            });
+                        });
+                    }
+                } else {
+                    const errorData = await response.json();
+                    alert(`Failed to fetch student records: ${errorData.error}`);
+                }
+            } catch (error) {
+                console.error('Error fetching student records:', error);
+            }
+        }
+    
+        // Event listener for the search button click
+        document.getElementById('searchButton').addEventListener('click', (e) => {
+            e.preventDefault();
+    
+            // Get the search parameters
+            const searchName = document.getElementById('searchName').value.trim();
+            const searchRollNumber = document.getElementById('searchRollNumber').value.trim();
+            const searchDepartment = document.getElementById('searchDepartment').value.trim();
+    
+            let query = '?';
+            if (searchName) query += `name=${encodeURIComponent(searchName)}&`;
+            if (searchRollNumber) query += `rollNo=${encodeURIComponent(searchRollNumber)}&`;
+            if (searchDepartment) query += `department=${encodeURIComponent(searchDepartment)}&`;
+    
+            // Remove the trailing '&' if present
+            query = query.endsWith('&') ? query.slice(0, -1) : query;
+    
+            // If no query parameters, reset the search (i.e., show all records)
+            query = query === '?' ? '' : query;
+    
+            // Call the function to fetch data with the query
+            fetchStudentRecords(query);
+        });
+    
+        // Call fetchStudentRecords initially to load all records
+        fetchStudentRecords();
+    });
+    
+        </script>
+
+
+
 </body>
 </html>
