@@ -132,6 +132,7 @@
         .approve-btn:hover {
             background-color: #229954;
         }
+
         .approve-btn1 {
             background-color: #27ae60;
         }
@@ -289,7 +290,7 @@
         .actions .approve:hover {
             background: #229954;
         }
-        
+
 
         .actions .delete {
             background: #E74C3C;
@@ -330,7 +331,7 @@
         header p {
             font-size: 1.1rem;
             margin-top: 5px;
-            color:#abc9e7;
+            color: #abc9e7;
         }
 
         .form-container {
@@ -437,98 +438,178 @@
             flex: 1;
         }
 
-
-
-/* Popup */
+/* Popup container */
 .popup {
     display: none; /* Hidden by default */
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark background with opacity */
-    justify-content: center;
-    align-items: center;
     z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.6); 
+    animation: fadeInBackdrop 0.2s ease-in-out; /* Faster backdrop fade-in */
 }
 
-/* Popup Content */
-.popup-content {
-    background: linear-gradient(135deg, #ffffff, #f2f2f2);
-    padding: 30px;
-    border-radius: 15px;
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    animation: popupFadeIn 0.5s ease-out;
-}
-
-/* Popup Animation */
-@keyframes popupFadeIn {
+/* Animation for the popup backdrop */
+@keyframes fadeInBackdrop {
     0% {
         opacity: 0;
-        transform: scale(0.8);
     }
     100% {
         opacity: 1;
-        transform: scale(1);
     }
 }
 
+/* Popup content */
+.popup-content {
+    position: relative;
+    background: linear-gradient(145deg, #f0f8ff, #c1e3f8); /* Beautiful gradient background */
+    padding: 20px;
+    margin: 5% auto;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Subtle shadow effect */
+    animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), fadeIn 0.2s ease-out; /* Faster slide-in and fade-in */
+}
+
+/* Fade-in animation for popup content */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Slide-in animation for popup content */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-20px); /* Start slightly higher */
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Title styling */
 #h {
-    color: #e74c3c;
-    font-size: 22px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-.student-info {
-    font-size: 14px;
-    color: #333;
+    text-align: center;
+    font-size: 24px;
+    color: #ff4444;
     margin-bottom: 20px;
-    text-align: left;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
+/* Student information styling */
+.student-info {
+    margin-bottom: 20px;
+    color: #000000;
+    font-size: 16px;
+}
+
+.student-info strong {
+    color: #007BFF;
+}
+
+/* Label styling */
+label {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Textarea styling */
 textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 8px;
+    border: 2px solid #007BFF;
     font-size: 16px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
 }
 
+/* Change border color when focusing on textarea */
 textarea:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+    border-color: #0056b3;
     outline: none;
 }
 
-button.send-popup-btn {
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
+/* Button styles */
+.send-popup-btn {
+    background-color: #28a745; /* Green button color */
     color: white;
+    padding: 12px 20px;
     border: none;
-    border-radius: 30px;
-    cursor: pointer;
+    border-radius: 10px;
     font-size: 16px;
-    transition: background 0.3s, transform 0.2s;
-    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
 }
 
-button.send-popup-btn:hover {
-    background: linear-gradient(135deg, #2980b9, #3498db);
-    transform: translateY(-2px);
+/* Button hover effect */
+.send-popup-btn:hover{
+    background-color: #218838; /* Darker green on hover */
 }
 
-/* Additional Style */
-button:active {
-    transform: translateY(2px);
+
+
+
+/* Close button */
+.close-btn {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
+
+.close-btn:hover {
+    color: #ff5722;
+}
+
+/* Add a little padding and margin around the popup */
+.popup-content p {
+    line-height: 1.6;
+}
+
+/* Button container */
+.actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .send-popup-btn, .delete-btn, .notify-btn {
+        width: 48%;
+    }
+}
+
+
     </style>
+
+
 </head>
 
 <body>
@@ -667,7 +748,28 @@ button:active {
                     </div>
                 </div>
             </div>
+
+              <!-- Popup container -->
+         <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close-btn" onclick="hidePopup()">×</span> <!-- Close button -->
+
+                <h2 id="h">Misbehaving Student</h2>
+                <p class="student-info">
+                    <strong>Name:</strong> Yash Kumar<br>
+                    <strong>Roll No:</strong> 2021CSDS149<br>
+                    <strong>Year & Branch:</strong> 4th Year (CSE-DS)
+                </p>
+                <label for="hod-message">Message from HOD:</label>
+                <br>
+                <textarea id="hod-message" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
+                <button class="send-popup-btn" onclick="sendMessage()">Send Message</button>
+            </div>
+        </div>
+            
         </section>
+       
+
 
         <section id="Notificaiton" class="content-section">
             <header>
@@ -735,21 +837,7 @@ button:active {
         </section>
 
 
-         <!-- Popup container -->
-         <div class="popup" id="popup">
-            <div class="popup-content">
-                <h2 id="h">Misbehavior Notification</h2>
-                <p class="student-info">
-                    <strong>Name:</strong> John Doe<br>
-                    <strong>Roll No:</strong> 12345<br>
-                    <strong>Phone:</strong> +1 234-567-8901
-                </p>
-                <label for="hod-message">Message from HOD:</label>
-                <textarea id="hod-message" rows="4" cols="30" placeholder="Enter the message here..."></textarea><br>
-                <button class="send-popup-btn" onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-
+       
     </div>
 
     <script>
@@ -805,37 +893,27 @@ button:active {
                     notificationLink.classList.add('active');
                 });
             });
-            
+
         });
 
-   
+
         document.addEventListener('DOMContentLoaded', () => {
-    const logoutButton = document.getElementById('logout');
+            const logoutButton = document.getElementById('logout');
 
-    logoutButton.addEventListener('click', (event) => {
-        const userConfirmed = confirm("Are you sure you want to logout?");
+            logoutButton.addEventListener('click', (event) => {
+                const userConfirmed = confirm("Are you sure you want to logout?");
 
-        if (userConfirmed) {
-            window.location.href = "dashboard.html"; 
-        }
-    });
-});
-
-document.getElementById('notifyButton').addEventListener('click', function() {
-    alert('Parents have been notified! 📢👨💬');
-});
-
-  // Function to show the popup
-  document.getElementById('approve-student').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'block';
+                if (userConfirmed) {
+                    window.location.href = "dashboard.html";
+                }
+            });
         });
 
-        // Function to close the popup
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-        }
+        document.getElementById('notifyButton').addEventListener('click', function () {
+            alert('Parents have been notified! 📢👨💬');
+        });
 
-
+     
     </script>
 
 
@@ -882,36 +960,36 @@ document.getElementById('notifyButton').addEventListener('click', function() {
                             `;
                                 recordsTableBody.appendChild(row);
                             });
-                           // Get all "Notify" buttons
-    const notifyButtons = document.querySelectorAll('.notify-btn');
-    
-    // Add event listeners to each "Notify" button
-    notifyButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Show an alert when the button is clicked
-            alert("You are being redirected to notify the student's parent.");
+                            // Get all "Notify" buttons
+                            const notifyButtons = document.querySelectorAll('.notify-btn');
 
-            // Scroll to the #Notificaiton section after the alert
-            document.getElementById('Notificaiton').scrollIntoView({
-                behavior: 'smooth' 
-            });
-        });
-    });
+                            // Add event listeners to each "Notify" button
+                            notifyButtons.forEach(function (button) {
+                                button.addEventListener('click', function () {
+                                    // Show an alert when the button is clicked
+                                    alert("You are being redirected to notify the student's parent.");
 
-    const approveButtons = document.querySelectorAll('.approve-btn1');
-    
-    // Add event listeners to each "Approve" button
-    approveButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Show an alert when the button is clicked
-            alert("You are being redirected to approve the student's details.");
+                                    // Scroll to the #Notificaiton section after the alert
+                                    document.getElementById('Notificaiton').scrollIntoView({
+                                        behavior: 'smooth'
+                                    });
+                                });
+                            });
 
-            // Scroll to the #approveStudents section after the alert
-            document.getElementById('approveStudents').scrollIntoView({
-                behavior: 'smooth'  // Smooth scrolling effect
-            });
-        });
-    });
+                            const approveButtons = document.querySelectorAll('.approve-btn1');
+
+                            // Add event listeners to each "Approve" button
+                            approveButtons.forEach(function (button) {
+                                button.addEventListener('click', function () {
+                                    // Show an alert when the button is clicked
+                                    alert("You are being redirected to approve the student's details.");
+
+                                    // Scroll to the #approveStudents section after the alert
+                                    document.getElementById('approveStudents').scrollIntoView({
+                                        behavior: 'smooth'  // Smooth scrolling effect
+                                    });
+                                });
+                            });
 
                             document.querySelectorAll('.delete-btn').forEach(button => {
                                 button.addEventListener('click', async (e) => {
@@ -928,10 +1006,10 @@ document.getElementById('notifyButton').addEventListener('click', function() {
 
                                             if (response.ok) {
                                                 alert('Student deleted successfully!');
-                                                fetchStudentRecords(); 
+                                                fetchStudentRecords();
                                             } else {
                                                 const error = await response.json();
-                                                alert(error.message || 'Failed to delete student');
+                                                // alert(error.message || 'Failed to delete student');
                                             }
                                         } catch (error) {
                                             console.error('Error deleting student:', error);
@@ -980,6 +1058,62 @@ document.getElementById('notifyButton').addEventListener('click', function() {
 
     </script>
 
+    
+<script>
+// Function to show the popup
+function showPopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "block"; // Show the popup
+}
+
+// Function to hide the popup
+function hidePopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "none"; // Hide the popup
+    document.getElementById("hod-message").value = ""; // Clear message field
+}
+
+// Function to send message (for now, it will log the message in console)
+function sendMessage() {
+    var message = document.getElementById("hod-message").value;
+    if (message) {
+        console.log("Message Sent: ", message);
+        alert("Message Sent Successfully!");
+        hidePopup(); // Hide the popup after sending the message
+    } else {
+        alert("Please enter a message.");
+    }
+}
+
+// Function to handle the 'Enter' key press to send the message
+function handleEnterKey(event) {
+    if (event.key === "Enter" && !event.shiftKey) { // Only trigger on 'Enter' key, not 'Shift + Enter'
+        event.preventDefault(); // Prevent the default 'Enter' behavior (new line)
+        sendMessage(); // Send the message
+    }
+}
+
+// Event listener for the 'Approve' button
+document.getElementById("approve-student").addEventListener("click", function() {
+    showPopup(); // Show the popup when 'Approve' button is clicked
+});
+
+// Event listener for the 'Reject' button
+document.querySelector(".delete-btn").addEventListener("click", function() {
+    alert("Student Rejected!");
+    hidePopup(); // Optionally, hide the popup after rejection
+});
+
+// Event listener for the 'Notify' button
+document.getElementById("notify-btn").addEventListener("click", function() {
+    alert("Notification Sent to Parents!");
+    hidePopup(); // Optionally, hide the popup after sending notification
+});
+
+// Event listener for 'Enter' key to send the message
+document.getElementById("hod-message").addEventListener("keydown", handleEnterKey);
+
+</script>
 
 
 </body>
